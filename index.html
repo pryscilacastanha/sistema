@@ -999,6 +999,12 @@
         ::-webkit-scrollbar-thumb:hover {
             background: var(--text-muted);
         }
+        /* CSS da Barra de Rolagem Sidebar */
+        .sidebar nav { flex: 1; overflow-y: auto; min-height: 0; padding-right: 8px; padding-bottom: 24px; }
+        .sidebar nav::-webkit-scrollbar { width: 8px; }
+        .sidebar nav::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.05); border-radius: 4px; }
+        .sidebar nav::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 4px; }
+        .sidebar nav::-webkit-scrollbar-thumb:hover { background: var(--text-secondary); }
     </style>
 </head>
 <body>
@@ -3353,6 +3359,7 @@ João da Silva MEI;123.456.789-00;DEFIS;2025-03-31;Cris;Em Andamento`;
     </script>
 </body>
 </html>
+
 
 
 
