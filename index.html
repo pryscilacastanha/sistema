@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestão Contábil | ECD • ECF • DEFIS</title>
+    <title>Sistema de Consultoria</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -67,29 +67,9 @@
             background: var(--bg-card);
             border-right: 1px solid var(--border);
             padding: 24px;
-            padding-bottom: 0px; /* Para acomodar melhor o scroll no fundo */
             z-index: 100;
             display: flex;
             flex-direction: column;
-        }
-
-        .sidebar nav {
-            flex: 1;
-            overflow-y: auto;
-            padding-right: 8px; /* Espaço para a barra de rolagem */
-            padding-bottom: 24px;
-        }
-
-        /* Estilo sutil da barra de rolagem da sidebar */
-        .sidebar nav::-webkit-scrollbar {
-            width: 4px;
-        }
-        .sidebar nav::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .sidebar nav::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 4px;
         }
 
         .logo {
@@ -1025,58 +1005,356 @@
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="logo">
-            <div class="logo-icon">GC</div>
+            <div class="logo-icon">PC</div>
             <div class="logo-text">
-                <span class="logo-title">Gestão Contábil</span>
-                <span class="logo-subtitle">ECD • ECF • DEFIS</span>
+                <span class="logo-title">Sistema de Consultoria</span>
             </div>
         </div>
 
-        <nav>
+                <nav>
             <div class="nav-section">
-                <div class="nav-section-title">Principal</div>
-                <div class="nav-item active" data-page="entregas">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
-                    <span>Entregas</span>
-                    <span class="nav-badge" id="pendentesCount">0</span>
+                <div class="nav-section-title">1. Configurações (Principal)</div>
+                <div class="nav-item" data-page="planejamento">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span>Painel Estratégico</span>
                 </div>
-            </div>
-
-            <div class="nav-section">
-                <div class="nav-section-title">Cadastros</div>
-                <div class="nav-item" data-page="empresas">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                    <span>Empresas</span>
+                <div class="nav-item" data-page="kpis">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 13v-1m4 1v-3m4 3V8M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
+                    <span>Painel de KPIs</span>
+                </div>
+                <div class="nav-item" data-page="cadastros_gerais">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
+                    <span>Cadastros Gerais</span>
+                </div>
+                <div class="nav-item" data-page="permissoes">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                    <span>Grupos e Perm. de Acesso</span>
                 </div>
                 <div class="nav-item" data-page="responsaveis">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                    <span>Responsáveis</span>
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Gestão de Usuários</span>
+                </div>
+                <div class="nav-item" data-page="empresas">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                    <span>Empresas Vinculadas</span>
+                </div>
+                <div class="nav-item" data-page="backup">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+                    <span>Backup do Sistema</span>
+                </div>
+                <div class="nav-item" data-page="versao">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Log de Histórico</span>
                 </div>
             </div>
 
             <div class="nav-section">
-                <div class="nav-section-title">Ferramentas</div>
-                <div class="nav-item" data-page="importar">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
-                    <span>Importar</span>
+                <div class="nav-section-title">2. Módulo Comercial</div>
+                <div class="nav-item" data-page="leads">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    <span>Controle de Leads (CRM)</span>
                 </div>
-                <div class="nav-item" data-page="relatorios">
+                <div class="nav-item" data-page="agenda_comercial">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <span>Agenda Comercial</span>
+                </div>
+                <div class="nav-item" data-page="apresentacao_comercial">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
+                    <span>Apresentação Comercial</span>
+                </div>
+                <div class="nav-item active" data-page="orcamentos">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    <span>Gerador de Orçamentos</span>
+                </div>
+                <div class="nav-item" data-page="gestao_contratos">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                    <span>Gestão de Contratos</span>
+                </div>
+                <div class="nav-item" data-page="passe_bastao">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2"/></svg>
+                    <span>Passe de Bastão</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">3. Módulo Financeiro</div>
+                <div class="nav-item" data-page="clientes_financeiro">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    <span>Cadastro de Clientes</span>
+                </div>
+                <div class="nav-item" data-page="contas_receber">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Contas a Receber / Fat.</span>
+                </div>
+                <div class="nav-item" data-page="contas_pagar">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    <span>Contas a Pagar</span>
+                </div>
+                <div class="nav-item" data-page="fluxo_caixa">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                    <span>Fluxo de Caixa</span>
+                </div>
+                <div class="nav-item" data-page="relatorios_financeiro">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                     <span>Relatórios</span>
                 </div>
             </div>
+
             <div class="nav-section">
-                <div class="nav-section-title">Comercial</div>
-                <div class="nav-item" data-page="crm" onclick="navegarPara('crm'); filtrarCrm('Ativo', document.querySelector('.tab[data-tab=\'ativos\']'))">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                    <span>CRM / Leads</span>
+                <div class="nav-section-title">4. Módulo Consultoria</div>
+                <div class="nav-item" data-page="clientes">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    <span>Carteira de Clientes</span>
+                </div>
+                <div class="nav-item" data-page="equipe_cliente">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                    <span>Equipes dos Clientes</span>
+                </div>
+                <div class="nav-item" data-page="controle_horas">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Controle de Horas</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">5. Módulo Mentoria</div>
+                <div class="nav-item" data-page="controle_sessoes">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                    <span>Controle de Sessões</span>
+                </div>
+                <div class="nav-item" data-page="historico_mentoria">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+                    <span>Histórico de Evolução</span>
+                </div>
+            </div>
+
+            <div class="nav-section">
+                <div class="nav-section-title">6. Módulo Assessoria</div>
+                <div class="nav-item" data-page="entregas">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                    <span>Gestão de Entregas</span>
+                    <span class="nav-badge" id="pendentesCount">0</span>
+                </div>
+                <div class="nav-item" data-page="status_deadline">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span>Status de Deadline</span>
                 </div>
             </div>
         </nav>
+
     </aside>
 
     <!-- Main Content -->
-    <main class="main-content">
+        <main class="main-content">
+        <!-- SEÇÕES CRIADAS VAZIAS -->
+        <section id="page-cadastros_gerais" class="page-section">
+            <div class="page-header">
+                <div><h1 class="page-title">Cadastros Gerais</h1><p class="page-description">Gestão de Informações Gerais</p></div>
+            </div>
+        </section>
+        <section id="page-permissoes" class="page-section">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Grupos e PermissÃ£o</h1>
+                    <p class="page-description">Gerencie os tÃ­tulos dos grupos e acessos ao sistema</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="abrirModalPermissoes()">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        Novo Grupo
+                    </button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body" style="padding: 0;">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Grupo de UsuÃ¡rio</th>
+                                    <th>PermissÃ£o de Menus</th>
+                                    <th>Status</th>
+                                    <th>AÃ§Ãµes</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaPermissoes">
+                                <tr>
+                                    <td>Administrador</td>
+                                    <td>Acesso Total</td>
+                                    <td><span class="badge badge-entregue">Ativo</span></td>
+                                    <td class="actions-cell">
+                                        <button class="btn btn-secondary btn-small">Editar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="page-permissoes" class="page-section">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Grupos e Permissões</h1>
+                    <p class="page-description">Gerencie os títulos dos grupos e acessos ao sistema</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="abrirModalPermissoes()">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        Novo Grupo
+                    </button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body" style="padding: 0;">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Grupo de Usuário</th>
+                                    <th>Permissão de Menus</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaPermissoes">
+                                <tr>
+                                    <td>Administrador</td>
+                                    <td>Acesso Total</td>
+                                    <td><span class="badge badge-entregue">Ativo</span></td>
+                                    <td class="actions-cell">
+                                        <button class="btn btn-secondary btn-small">Editar</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+                <section id="page-agenda_comercial" class="page-section">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Agenda Comercial</h1>
+                    <p class="page-description">Controle de Agendamentos e ReuniÃµes</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary">RelatÃ³rio de Agendas</button>
+                    <button class="btn btn-primary">Novo Agendamento</button>
+                </div>
+            </div>
+            <div class="filters-bar">
+                <div class="filter-group">
+                    <label class="filter-label">UsuÃ¡rio</label>
+                    <select class="filter-select"><option>Todos</option></select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Cliente</label>
+                    <input type="text" class="filter-input" placeholder="Buscar cliente...">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Data</label>
+                    <input type="date" class="filter-input">
+                </div>
+                <div class="filter-actions"><button class="btn btn-secondary btn-small">Filtrar</button></div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <div class="empty-state">
+                        <div class="empty-icon">ðŸ“…</div>
+                        <h3 class="empty-title">Nenhum agendamento encontrado</h3>
+                        <p class="empty-description">Use os filtros acima ou crie um novo agendamento.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="page-apresentacao_comercial" class="page-section">
+            <div class="page-header">
+                <div><h1 class="page-title">Apresentação Comercial</h1><p class="page-description">Arquivos, Repositório e Apresentações</p></div>
+            </div>
+        </section>
+                <section id="page-gestao_contratos" class="page-section">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Contratos de PrestaÃ§Ã£o de ServiÃ§o</h1>
+                    <p class="page-description">VisualizaÃ§Ã£o e AutomaÃ§Ã£o de Contratos Ativos</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary">Novo Contrato</button>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body" style="padding: 0;">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Cliente</th>
+                                    <th>ServiÃ§o</th>
+                                    <th>Data de InÃ­cio</th>
+                                    <th>Vencimento</th>
+                                    <th>Status</th>
+                                    <th>AÃ§Ãµes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="6" style="text-align:center;">Nenhum contrato cadastrado</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="page-fluxo_caixa" class="page-section">
+            <div class="page-header">
+                <div><h1 class="page-title">Fluxo de Caixa</h1><p class="page-description">Controle Geral de Entradas e Saídas</p></div>
+            </div>
+        </section>
+        <section id="page-controle_horas" class="page-section">
+            <div class="page-header">
+                <div><h1 class="page-title">Controle de Horas</h1><p class="page-description">Timesheet por Projetos Ativos</p></div>
+            </div>
+        </section>
+                <section id="page-controle_sessoes" class="page-section">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Controle de SessÃµes (Mentoria)</h1>
+                    <p class="page-description">Gerencie as sessÃµes de mentoria</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body" style="padding: 0;">
+                    <div class="table-container" style="padding: 20px;">
+                        <button class="btn btn-primary" style="margin-bottom: 15px;">Nova SessÃ£o</button>
+                        <table style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Mentorado</th>
+                                    <th>Data da SessÃ£o</th>
+                                    <th>Tema Abordado</th>
+                                    <th>Status</th>
+                                    <th>AÃ§Ãµes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="5" style="text-align:center;">Nenhuma sessÃ£o registrada</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="page-historico_mentoria" class="page-section">
+            <div class="page-header">
+                <div><h1 class="page-title">Histórico de Evolução</h1><p class="page-description">Resultados e Progressões do Mentorado</p></div>
+            </div>
+        </section>
+        <section id="page-status_deadline" class="page-section">
+            <div class="page-header">
+                <div><h1 class="page-title">Status de Deadline</h1><p class="page-description">Conferência de Prazos</p></div>
+            </div>
+        </section>
+
         <!-- Entregas Page -->
         <section id="page-entregas" class="page-section active">
             <div class="page-header">
@@ -1170,6 +1448,42 @@
             </div>
         </section>
 
+        <!-- Clientes Page -->
+        <section id="page-clientes" class="page-section">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Cadastro de Clientes</h1>
+                    <p class="page-description">Gerencie seus clientes de consultoria</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="abrirModalCliente()">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        Novo Cliente
+                    </button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body" style="padding: 0;">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nome do Cliente</th>
+                                    <th>Valor dos Honorários</th>
+                                    <th>Tipo de Plano</th>
+                                    <th>Carga Horária</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaClientes">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Empresas Page -->
         <section id="page-empresas" class="page-section">
             <div class="page-header">
@@ -1211,6 +1525,60 @@
                 </div>
             </div>
         </section>
+        <section id="page-clientes_financeiro" class="page-section">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Cadastro de Clientes Financeiros</h1>
+                    <p class="page-description">Consulte leads convertidos e defina honorÃ¡rios</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body" style="padding: 0;">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Cliente (Lead)</th>
+                                    <th>CNPJ/CPF</th>
+                                    <th>ServiÃ§o Contratado</th>
+                                    <th>Valor de HonorÃ¡rios (R$)</th>
+                                    <th>Status Pgto</th>
+                                    <th>AÃ§Ãµes</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="6" style="text-align:center;">Nenhum cliente financeiro</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="page-planejamento" class="page-section">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Planejamento EstratÃ©gico (Consultoria)</h1>
+                    <p class="page-description">Pautas e Ferramentas das 6 ReuniÃµes</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h3 style="margin-top: 10px; margin-bottom: 5px;">1Â° ReuniÃ£o: PropÃ³sito, MissÃ£o, VisÃ£o e Valores</h3>
+                    <textarea class="form-textarea full-width" placeholder="Descreva as definiÃ§Ãµes..."></textarea>
+                    <h3 style="margin-top: 15px; margin-bottom: 5px;">2Â° ReuniÃ£o: AnÃ¡lise SWOT</h3>
+                    <textarea class="form-textarea full-width" placeholder="Descreva ForÃ§as, Fraquezas, Oportunidades..."></textarea>
+                    <h3 style="margin-top: 15px; margin-bottom: 5px;">3Â° ReuniÃ£o: Inserir Ferramenta</h3>
+                    <textarea class="form-textarea full-width" placeholder="Ferramenta definida..."></textarea>
+                    <h3 style="margin-top: 15px; margin-bottom: 5px;">4Â° ReuniÃ£o: Inserir Ferramenta</h3>
+                    <textarea class="form-textarea full-width" placeholder="Ferramenta definida..."></textarea>
+                    <h3 style="margin-top: 15px; margin-bottom: 5px;">5Â° ReuniÃ£o: Inserir Ferramenta</h3>
+                    <textarea class="form-textarea full-width" placeholder="Ferramenta definida..."></textarea>
+                    <h3 style="margin-top: 15px; margin-bottom: 5px;">6Â° ReuniÃ£o: Inserir Ferramenta</h3>
+                    <textarea class="form-textarea full-width" placeholder="Ferramenta definida..."></textarea>
+                    <button class="btn btn-primary" style="margin-top: 15px;">Salvar Planejamento</button>
+                </div>
+            </div>
+        </section>
 
         <!-- Responsáveis Page -->
         <section id="page-responsaveis" class="page-section">
@@ -1235,6 +1603,7 @@
                                 <tr>
                                     <th>Nome</th>
                                     <th>Email</th>
+                                    <th>Telefone</th>
                                     <th>Cargo</th>
                                     <th>Empresas Atribuídas</th>
                                     <th>Status</th>
@@ -1287,7 +1656,7 @@
                             <h4 style="font-size: 14px; margin-bottom: 12px;">📋 Formato esperado do CSV:</h4>
                             <code style="display: block; padding: 16px; background: var(--bg-hover); border-radius: 8px; font-family: 'Space Mono', monospace; font-size: 12px; overflow-x: auto;">
 Nome da Empresa;CNPJ/CPF/CEI;Enquadramento Tributário;Responsável;Email;Telefone<br>
-Empresa Exemplo LTDA;12.345.678/0001-90;Lucro Presumido;Aliny;email@exemplo.com;(11) 99999-9999
+101;Empresa Exemplo LTDA;12.345.678/0001-90;Lucro Presumido;Aliny
                             </code>
                             <p style="font-size: 12px; color: var(--text-muted); margin-top: 12px;">
                                 <strong>Enquadramentos válidos:</strong> Simples Nacional, Lucro Presumido, Lucro Real, MEI
@@ -1382,50 +1751,45 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                 </div>
             </div>
         </section>
-
-        <!-- SEÇÃO CRM -->
-        <section id="page-crm" class="page-section">
-            <div class="page-header">
-                <div>
-                    <h1 class="page-title">CRM / Leads</h1>
-                    <p class="page-description">Gestão de clientes Ativos, Leads e Inativos</p>
-                </div>
-                <div class="header-actions">
-                    <button class="btn btn-primary" onclick="mostrarAlertaDesenvolvimento()">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                        Modelos de Contrato
-                    </button>
-                    <button class="btn btn-secondary" onclick="mostrarAlertaDesenvolvimento()">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
-                        Modelos de Proposta
-                    </button>
-                </div>
-            </div>
-
-            <div class="tabs" style="margin-bottom: 24px;">
-                <button class="tab" data-tab="ativos" onclick="filtrarCrm('Ativo', this)">Ativos</button>
-                <button class="tab" data-tab="leads" onclick="filtrarCrm('LEAD', this)">Leads</button>
-                <button class="tab" data-tab="inativos" onclick="filtrarCrm('Inativo', this)">Inativos</button>
-            </div>
-
-            <div class="card">
-                <div class="card-body">
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Nome / Fantasia</th>
-                                    <th>Status</th>
-                                    <th>Tipo de Serviço</th>
-                                    <th>Observações</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tabelaCrm">
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+        <!-- New Stubs -->
+        <section id="page-leads" class="page-section">
+            <div class="page-header"><div><h1 class="page-title">Leads (Comercial)</h1><p class="page-description">Em breve: Módulo de gestão de leads e funil de vendas.</p></div></div>
+        </section>
+        <section id="page-orcamentos" class="page-section">
+            <div class="page-header"><div><h1 class="page-title">Orçamentos</h1><p class="page-description">Em breve: Criação e aprovação de propostas comerciais.</p></div></div>
+        </section>
+        <section id="page-passe_bastao" class="page-section">
+            <div class="page-header"><div><h1 class="page-title">Passe de Bastão</h1><p class="page-description">Em breve: Transição de entrega entre Comercial e Operacional.</p></div></div>
+        </section>
+        <section id="page-clientes_financeiro" class="page-section">
+            <div class="page-header"><div><h1 class="page-title">Clientes (Financeiro)</h1><p class="page-description">Em breve: Gestão financeira de clientes importados do Comercial.</p></div></div>
+        </section>
+        <section id="page-contas_receber" class="page-section">
+            <div class="page-header"><div><h1 class="page-title">Contas a Receber</h1><p class="page-description">Em breve: Lançamentos e recebimentos de títulos.</p></div></div>
+        </section>
+        <section id="page-contas_pagar" class="page-section">
+            <div class="page-header"><div><h1 class="page-title">Contas a Pagar</h1><p class="page-description">Em breve: Gestão de despesas e aprovações de pagamento.</p></div></div>
+        </section>
+        <section id="page-relatorios_financeiro" class="page-section">
+            <div class="page-header"><div><h1 class="page-title">Relatórios Financeiros</h1><p class="page-description">Em breve: Extratos, Livro Caixa e fluxo de DRE.</p></div></div>
+        </section>
+        <section id="page-equipe_cliente" class="page-section">
+            <div class="page-header"><div><h1 class="page-title">Equipes dos Clientes</h1><p class="page-description">Em breve: Gestão dos contatos/usuários amarrados a cada cliente.</p></div></div>
+        </section>
+        <section id="page-planejamento" class="page-section">
+            <div class="page-header"><div><h1 class="page-title">Painel Estratégico</h1><p class="page-description">Em breve: Gestão das fases do Planejamento Estratégico do cliente.</p></div></div>
+        </section>
+        <section id="page-kpis" class="page-section">
+            <div class="page-header"><div><h1 class="page-title">Painel de KPIs</h1><p class="page-description">Em breve: Mensuração gráfica das entregas e resultados da consultoria.</p></div></div>
+        </section>
+        <section id="page-permissoes" class="page-section">
+            <div class="page-header"><div><h1 class="page-title">Permissões de Acesso</h1><p class="page-description">Em breve: Controle de nível de acesso e grupos de usuários.</p></div></div>
+        </section>
+        <section id="page-backup" class="page-section">
+            <div class="page-header"><div><h1 class="page-title">Gestão de Backup</h1><p class="page-description">Em breve: Exportação e importação manual das bases de dados em lote.</p></div></div>
+        </section>
+        <section id="page-versao" class="page-section">
+            <div class="page-header"><div><h1 class="page-title">Controle de Versão</h1><p class="page-description">Em breve: Log de alterações do sistema e auditoria.</p></div></div>
         </section>
     </main>
 
@@ -1615,6 +1979,49 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
         </div>
     </div>
 
+    <!-- Modal Cliente -->
+    <div class="modal-overlay" id="modalCliente">
+        <div class="modal" style="max-width: 500px;">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalClienteTitulo">Novo Cliente</h2>
+                <button class="modal-close" onclick="fecharModal('modalCliente')">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="clienteId">
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label class="form-label">Nome do Cliente <span class="required">*</span></label>
+                        <input type="text" class="form-input" id="clienteNome" required placeholder="Nome do cliente">
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Valor dos Honorários (R$) <span class="required">*</span></label>
+                        <input type="number" class="form-input" id="clienteHonorarios" required placeholder="Ex: 1500.00" step="0.01">
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Tipo de Plano Contratado <span class="required">*</span></label>
+                        <select class="form-select" id="clientePlano" required>
+                            <option value="">Selecione</option>
+                            <option value="Mensal">Mensal</option>
+                            <option value="Trimestral">Trimestral</option>
+                            <option value="Anual">Anual</option>
+                            <option value="Projeto Fixo">Projeto Fixo</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Carga Horária (horas) <span class="required">*</span></label>
+                        <input type="number" class="form-input" id="clienteCargaHoraria" required placeholder="Ex: 20">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="fecharModal('modalCliente')">Cancelar</button>
+                <button class="btn btn-primary" onclick="salvarCliente()">Salvar</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal Empresa -->
     <div class="modal-overlay" id="modalEmpresa">
         <div class="modal">
@@ -1696,9 +2103,13 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                         <label class="form-label">Nome <span class="required">*</span></label>
                         <input type="text" class="form-input" id="responsavelNome" required placeholder="Nome completo">
                     </div>
-                    <div class="form-group full-width">
+                                        <div class="form-group full-width">
                         <label class="form-label">Email</label>
                         <input type="email" class="form-input" id="responsavelEmail" placeholder="email@empresa.com.br">
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Telefone</label>
+                        <input type="text" class="form-input" id="responsavelTelefone" placeholder="(00) 00000-0000" oninput="formatarTelefone(this)">
                     </div>
                     <div class="form-group full-width">
                         <label class="form-label">Cargo</label>
@@ -1754,6 +2165,7 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
         // DADOS E ESTADO
         // =============================================
         let dados = {
+            clientes: [],
             empresas: [],
             entregas: [],
             responsaveis: [
@@ -1779,31 +2191,10 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
             const dadosSalvos = localStorage.getItem('gestaoContabil');
             if (dadosSalvos) {
                 const parsed = JSON.parse(dadosSalvos);
+                dados.clientes = parsed.clientes || [];
                 dados.empresas = parsed.empresas || [];
                 dados.entregas = parsed.entregas || [];
                 dados.responsaveis = parsed.responsaveis || dados.responsaveis;
-                dados.crm_clientes = parsed.crm_clientes || [];
-            }
-
-            // Injeção Automática dos 14 Clientes / Leads
-            if (!dados.crm_clientes || dados.crm_clientes.length === 0) {
-                dados.crm_clientes = [
-                    { id: 1, nomeFantasia: "AMANDA", status: "Ativo", tipoServico: "Assessoria em Tecnologia", negocioFechado: true, observacoes: "Modelo Contrato Serviço" },
-                    { id: 2, nomeFantasia: "APROCON", status: "Ativo", tipoServico: "Assessoria administrativa", observacoes: "Sem manutenção" },
-                    { id: 3, nomeFantasia: "SINDICONTA", status: "Ativo", tipoServico: "Assessoria administrativa", observacoes: "Mesmo caso que aprocon" },
-                    { id: 4, nomeFantasia: "WASHINGTON", status: "Ativo", tipoServico: "Contabilidade" },
-                    { id: 5, nomeFantasia: "Gildo Heckler", status: "Ativo", tipoServico: "Gestão comercial", observacoes: "Venda do Livro DCC" },
-                    { id: 6, nomeFantasia: "Gráfica", status: "Ativo", tipoServico: "Assessoria contábil" },
-                    { id: 7, nomeFantasia: "MADEIRA", status: "Ativo", tipoServico: "Assessoria contábil" },
-                    { id: 8, nomeFantasia: "MALAGGI", status: "Ativo", tipoServico: "Consultoria", observacoes: "6 reuniões de planejamento estratégico" },
-                    { id: 9, nomeFantasia: "MAMMACELLO", status: "Ativo", tipoServico: "Consultoria e Assessoria contábil" },
-                    { id: 10, nomeFantasia: "BAND", status: "LEAD", tipoServico: "", observacoes: "Modelo de proposta, modelo para os demais, NDA" },
-                    { id: 11, nomeFantasia: "POLLIANE", status: "LEAD", tipoServico: "", observacoes: "Observar modelo de proposta" },
-                    { id: 12, nomeFantasia: "SCI AL", status: "LEAD", tipoServico: "", observacoes: "Observar modelo de proposta" },
-                    { id: 13, nomeFantasia: "SCI PA", status: "LEAD", tipoServico: "", observacoes: "Observar modelo de proposta e contrato" },
-                    { id: 14, nomeFantasia: "CONVENIENCIA - FORTALEZA", cnpj: "38.377.003/0001-11", status: "Inativo", tipoServico: "", observacoes: "Mudança de contador" }
-                ];
-                salvarDados();
             }
         }
 
@@ -1888,6 +2279,7 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
         function atualizarTudo() {
             atualizarEstatisticas();
             atualizarTabelaEntregas();
+            atualizarTabelaClientes();
             atualizarTabelaEmpresas();
             atualizarTabelaResponsaveis();
             atualizarSelectsResponsaveis();
@@ -2019,6 +2411,41 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                     </tr>
                 `;
             }).join('');
+        }
+
+        function atualizarTabelaClientes() {
+            const tbody = document.getElementById('tabelaClientes');
+
+            if (dados.clientes.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 60px; color: var(--text-muted);">
+                            <div class="empty-icon" style="margin: 0 auto 16px;">
+                                <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                            </div>
+                            Nenhum cliente cadastrado
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = dados.clientes.map(cliente => `
+                <tr>
+                    <td><strong>${cliente.nome}</strong></td>
+                    <td>R$ ${(parseFloat(cliente.honorarios) || 0).toFixed(2).replace('.', ',')}</td>
+                    <td><span class="badge ${cliente.plano === 'Mensal' ? 'badge-entregue' : 'badge-pendente'}">${cliente.plano}</span></td>
+                    <td>${cliente.cargaHoraria}h</td>
+                    <td class="actions-cell">
+                        <button class="actions-btn" onclick="editarCliente(${cliente.id})" title="Editar">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                        </button>
+                        <button class="actions-btn" onclick="confirmarExclusao('cliente', ${cliente.id})" title="Excluir">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
         }
 
         function atualizarTabelaEmpresas() {
@@ -2309,6 +2736,7 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                 mostrarToast('Entrega criada com sucesso!', 'success');
             }
 
+            dbUpsert('entregas', entrega);
             salvarDados();
             atualizarTudo();
             fecharModal('modalEntrega');
@@ -2316,9 +2744,84 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
 
         function excluirEntrega(id) {
             dados.entregas = dados.entregas.filter(e => e.id !== id);
+            dbDelete('entregas', id);
             salvarDados();
             atualizarTudo();
             mostrarToast('Entrega excluída com sucesso!', 'success');
+        }
+
+        // =============================================
+        // CRUD CLIENTES
+        // =============================================
+        function abrirModalCliente() {
+            document.getElementById('modalClienteTitulo').textContent = 'Novo Cliente';
+            document.getElementById('clienteId').value = '';
+            document.getElementById('clienteNome').value = '';
+            document.getElementById('clienteHonorarios').value = '';
+            document.getElementById('clientePlano').value = '';
+            document.getElementById('clienteCargaHoraria').value = '';
+
+            abrirModal('modalCliente');
+        }
+
+        function editarCliente(id) {
+            const cliente = dados.clientes.find(c => c.id === id);
+            if (!cliente) return;
+
+            document.getElementById('modalClienteTitulo').textContent = 'Editar Cliente';
+            document.getElementById('clienteId').value = cliente.id;
+            document.getElementById('clienteNome').value = cliente.nome;
+            document.getElementById('clienteHonorarios').value = cliente.honorarios;
+            document.getElementById('clientePlano').value = cliente.plano;
+            document.getElementById('clienteCargaHoraria').value = cliente.cargaHoraria;
+
+            abrirModal('modalCliente');
+        }
+
+        function salvarCliente() {
+            const nome = document.getElementById('clienteNome').value.trim();
+            const honorarios = document.getElementById('clienteHonorarios').value;
+            const plano = document.getElementById('clientePlano').value;
+            const cargaHoraria = document.getElementById('clienteCargaHoraria').value;
+
+            if (!nome || !honorarios || !plano || !cargaHoraria) {
+                mostrarToast('Preencha todos os campos obrigatórios', 'error');
+                return;
+            }
+
+            const id = document.getElementById('clienteId').value;
+
+            const cliente = {
+                id: id ? parseInt(id) : Date.now(),
+                nome: nome,
+                honorarios: honorarios,
+                plano: plano,
+                cargaHoraria: cargaHoraria,
+                criadoEm: id ? dados.clientes.find(c => c.id === parseInt(id))?.criadoEm : new Date().toISOString(),
+                atualizadoEm: new Date().toISOString()
+            };
+
+            if (id) {
+                const index = dados.clientes.findIndex(c => c.id === parseInt(id));
+                dados.clientes[index] = cliente;
+                mostrarToast('Cliente atualizado com sucesso!', 'success');
+            } else {
+                dados.clientes.push(cliente);
+                mostrarToast('Cliente criado com sucesso!', 'success');
+            }
+
+            dbUpsert('clientes', cliente);
+            salvarDados();
+            atualizarTudo();
+            fecharModal('modalCliente');
+        }
+
+        function excluirCliente(id) {
+            dados.clientes = dados.clientes.filter(c => c.id !== id);
+            dbDelete('clientes', id);
+            salvarDados();
+            atualizarTudo();
+            mostrarToast('Cliente excluído com sucesso!', 'success');
         }
 
         // =============================================
@@ -2408,6 +2911,7 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                 mostrarToast('Empresa criada com sucesso!', 'success');
             }
 
+            dbUpsert('empresas', empresa);
             salvarDados();
             atualizarTudo();
             fecharModal('modalEmpresa');
@@ -2422,6 +2926,7 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
             }
 
             dados.empresas = dados.empresas.filter(e => e.id !== id);
+            dbDelete('empresas', id);
             salvarDados();
             atualizarTudo();
             mostrarToast('Empresa excluída com sucesso!', 'success');
@@ -2492,10 +2997,10 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                 // Atualizar nome em empresas e entregas
                 if (nomeAntigo !== nome) {
                     dados.empresas.forEach(e => {
-                        if (e.responsavel === nomeAntigo) e.responsavel = nome;
+                        if (e.responsavel === nomeAntigo) { e.responsavel = nome; dbUpsert('empresas', e); }
                     });
                     dados.entregas.forEach(e => {
-                        if (e.responsavel === nomeAntigo) e.responsavel = nome;
+                        if (e.responsavel === nomeAntigo) { e.responsavel = nome; dbUpsert('entregas', e); }
                     });
                 }
 
@@ -2505,6 +3010,7 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                 mostrarToast('Colaborador criado com sucesso!', 'success');
             }
 
+            dbUpsert('responsaveis', responsavel);
             salvarDados();
             atualizarTudo();
             fecharModal('modalResponsavel');
@@ -2524,6 +3030,7 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
             }
 
             dados.responsaveis = dados.responsaveis.filter(r => r.id !== id);
+            dbDelete('responsaveis', id);
             salvarDados();
             atualizarTudo();
             mostrarToast('Colaborador excluído com sucesso!', 'success');
@@ -2536,6 +3043,7 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
 
         function confirmarExclusao(tipo, id) {
             const textos = {
+                cliente: 'Tem certeza que deseja excluir este cliente?',
                 empresa: 'Tem certeza que deseja excluir esta empresa?',
                 entrega: 'Tem certeza que deseja excluir esta entrega?',
                 responsavel: 'Tem certeza que deseja excluir este colaborador?'
@@ -2544,7 +3052,8 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
             document.getElementById('confirmacaoTexto').textContent = textos[tipo];
             
             exclusaoCallback = () => {
-                if (tipo === 'empresa') excluirEmpresa(id);
+                if (tipo === 'cliente') excluirCliente(id);
+                else if (tipo === 'empresa') excluirEmpresa(id);
                 else if (tipo === 'entrega') excluirEntrega(id);
                 else if (tipo === 'responsavel') excluirResponsavel(id);
                 fecharModal('modalConfirmacao');
@@ -3058,38 +3567,6 @@ João da Silva MEI;123.456.789-00;DEFIS;2025-03-31;Cris;Em Andamento`;
                 toast.style.animation = 'toastSlide 0.3s ease reverse';
                 setTimeout(() => toast.remove(), 300);
             }, 4000);
-        }
-
-        function filtrarCrm(status, elementoTab) {
-            // Atualiza tabs visuais
-            if (elementoTab) {
-                const container = elementoTab.parentElement;
-                container.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                elementoTab.classList.add('active');
-            }
-
-            const tbody = document.getElementById('tabelaCrm');
-            if (!tbody || !dados.crm_clientes) return;
-
-            const clientesFiltrados = dados.crm_clientes.filter(c => c.status && c.status.toLowerCase() === status.toLowerCase());
-
-            if (clientesFiltrados.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding: 40px; color: var(--text-muted);">Nenhum cliente encontrado com status \${status}</td></tr>`;
-                return;
-            }
-
-            tbody.innerHTML = clientesFiltrados.map(c => `
-                <tr>
-                    <td><strong>\${c.nomeFantasia}</strong></td>
-                    <td><span class="badge \${status.toLowerCase() === 'ativo' ? 'badge-entregue' : (status.toLowerCase() === 'lead' ? 'badge-andamento' : 'badge-pendente')}">\${c.status}</span></td>
-                    <td>\${c.tipoServico || '-'}</td>
-                    <td>\${c.observacoes || '-'}</td>
-                </tr>
-            `).join('');
-        }
-
-        function mostrarAlertaDesenvolvimento() {
-            mostrarToast("Você precisará conectar os links oficiais do seu Google Drive a esses botões em breve.", "warning");
         }
     </script>
 </body>
