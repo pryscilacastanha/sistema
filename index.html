@@ -1106,10 +1106,6 @@
 
             <div class="nav-section">
                 <div class="nav-section-title">4. Módulo Consultoria</div>
-                <div class="nav-item" data-page="planejamento">
-                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                    <span>Planejamento Estratégico</span>
-                </div>
                 <div class="nav-item" data-page="clientes">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                     <span>Carteira de Clientes</span>
@@ -1121,6 +1117,10 @@
                 <div class="nav-item" data-page="controle_horas">
                     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     <span>Controle de Horas</span>
+                </div>
+                <div class="nav-item" data-page="planejamento">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span>Painel de Planejamento</span>
                 </div>
             </div>
 
@@ -1475,6 +1475,112 @@
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                         Novo Cliente
                     </button>
+
+        <!-- Entregas Page -->
+        <section id="page-entregas" class="page-section active">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Controle de Entregas</h1>
+                    <p class="page-description">Gerencie todas as obrigações contábeis</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" onclick="exportarEntregas()">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                        Exportar
+                    </button>
+                    <button class="btn btn-primary" onclick="abrirModalEntrega()">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        Nova Entrega
+                    </button>
+                </div>
+            </div>
+
+            <div class="filters-bar">
+                <div class="filter-group">
+                    <label class="filter-label">Buscar</label>
+                    <input type="text" class="filter-input" id="filtroTexto" placeholder="Empresa ou CNPJ..." oninput="filtrarEntregas()">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Obrigação</label>
+                    <select class="filter-select" id="filtroObrigacao" onchange="filtrarEntregas()">
+                        <option value="">Todas</option>
+                        <option value="ECD">ECD</option>
+                        <option value="ECF">ECF</option>
+                        <option value="DEFIS">DEFIS</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Status</label>
+                    <select class="filter-select" id="filtroStatus" onchange="filtrarEntregas()">
+                        <option value="">Todos</option>
+                        <option value="Pendente">Pendente</option>
+                        <option value="Em Andamento">Em Andamento</option>
+                        <option value="Entregue">Entregue</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Responsável</label>
+                    <select class="filter-select" id="filtroResponsavel" onchange="filtrarEntregas()">
+                        <option value="">Todos</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Enquadramento</label>
+                    <select class="filter-select" id="filtroEnquadramento" onchange="filtrarEntregas()">
+                        <option value="">Todos</option>
+                        <option value="Simples Nacional">Simples Nacional</option>
+                        <option value="Lucro Presumido">Lucro Presumido</option>
+                        <option value="Lucro Real">Lucro Real</option>
+                        <option value="MEI">MEI</option>
+                    </select>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn btn-secondary btn-small" onclick="limparFiltros()">Limpar</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-body" style="padding: 0;">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th style="width: 40px;">
+                                        <div class="checkbox" id="checkAll" onclick="toggleCheckAll()">
+                                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/></svg>
+                                        </div>
+                                    </th>
+                                    <th>Empresa</th>
+                                    <th>CNPJ/CPF</th>
+                                    <th>Enquadramento</th>
+                                    <th>Obrigação</th>
+                                    <th>GUT</th>
+                                    <th>Prazo</th>
+                                    <th>Responsável</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabelaEntregas">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Clientes Page -->
+        <section id="page-clientes" class="page-section">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Cadastro de Clientes</h1>
+                    <p class="page-description">Gerencie seus clientes de consultoria</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="abrirModalCliente()">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        Novo Cliente
+                    </button>
                 </div>
             </div>
 
@@ -1485,6 +1591,7 @@
                             <thead>
                                 <tr>
                                     <th>Nome do Cliente</th>
+                                    <th>Integração (CRM/Fin)</th>
                                     <th>Valor dos Honorários</th>
                                     <th>Tipo de Plano</th>
                                     <th>Carga Horária</th>
@@ -1569,6 +1676,12 @@
                 </div>
             </div>
         </section>
+        <section id="page-kpis" class="page-section">
+            <div class="page-header"><div><h1 class="page-title">Painel de KPIs</h1><p class="page-description">Em breve: Mensuração gráfica das entregas e resultados da consultoria.</p></div></div>
+        </section>
+        <section id="page-permissoes" class="page-section">
+            <div class="page-header"><div><h1 class="page-title">Permissões de Acesso</h1><p class="page-description">Em breve: Controle de nível de acesso e grupos de usuários.</p></div></div>
+        </section>
                         <section id="page-planejamento" class="page-section">
             <div class="page-header">
                 <div>
@@ -1648,7 +1761,6 @@
                 }
             </script>
         </section>
-
 
         <!-- Responsáveis Page -->
         <section id="page-responsaveis" class="page-section">
