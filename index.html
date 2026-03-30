@@ -1530,9 +1530,48 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                 </div>
             </div>
         </section>
-        <!-- New Stubs -->
+        <!-- Módulo Comercial: Leads -->
         <section id="page-leads" class="page-section">
-            <div class="page-header"><div><h1 class="page-title">Leads (Comercial)</h1><p class="page-description">Em breve: Módulo de gestão de leads e funil de vendas.</p></div></div>
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Gestão de Leads (Funil Comercial)</h1>
+                    <p class="page-description">Diagnóstico, qualificação e propostas comerciais ancoradas no seu escopo.</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="abrirModalLead()">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        Novo Lead e Diagnóstico
+                    </button>
+                </div>
+            </div>
+
+            <div class="filters-panel">
+                <input type="text" class="form-input" id="filtroLeadTexto" placeholder="Buscar por possível cliente..." onkeyup="filtrarLeads()">
+                <select class="form-select" id="filtroLeadFase" onchange="filtrarLeads()">
+                    <option value="">Todas as Fases</option>
+                    <option value="Qualificação">1 - Qualificação (Diagnóstico)</option>
+                    <option value="Proposta">2 - Apresentação Comercial</option>
+                    <option value="Negociação">3 - Elaboração do Orçamento</option>
+                    <option value="Fechado">4 - Fechado (Contrato Gerado)</option>
+                    <option value="Perdido">5 - Negócio Perdido</option>
+                </select>
+            </div>
+
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Cliente Prospectado</th>
+                            <th>Contato</th>
+                            <th>Fase no Funil</th>
+                            <th>Perfil / Trava Diagnóstica</th>
+                            <th style="width: 250px;">Ações e Propostas</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabelaLeads">
+                    </tbody>
+                </table>
+            </div>
         </section>
         <section id="page-orcamentos" class="page-section">
             <div class="page-header"><div><h1 class="page-title">Orçamentos</h1><p class="page-description">Em breve: Criação e aprovação de propostas comerciais.</p></div></div>
@@ -1571,6 +1610,105 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
             <div class="page-header"><div><h1 class="page-title">Controle de Versão</h1><p class="page-description">Em breve: Log de alterações do sistema e auditoria.</p></div></div>
         </section>
     </main>
+
+    <!-- Modal Lead Comercial -->
+    <div class="modal-overlay" id="modalLead">
+        <div class="modal" style="max-width: 750px;">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalLeadTitulo">Diagnóstico Comercial (Lead)</h2>
+                <button class="modal-close" onclick="fecharModal('modalLead')">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="leadId">
+                
+                <h3 style="margin-bottom: 15px; color: var(--primary); font-size: 16px;">1. Informações Básicas</h3>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label class="form-label">Nome da Empresa Prospectada / Cliente <span class="required">*</span></label>
+                        <input type="text" class="form-input" id="leadNome" required placeholder="Nome do negócio">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Pessoa de Contato</label>
+                        <input type="text" class="form-input" id="leadContato" placeholder="Nome do tomador de decisão">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Telefone / WhatsApp</label>
+                        <input type="text" class="form-input" id="leadTelefone" placeholder="(00) 00000-0000" oninput="formatarTelefone(this)">
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Fase no Funil de Vendas</label>
+                        <select class="form-select" id="leadFase">
+                            <option value="Qualificação">1 - Qualificação (Diagnosticando Dores)</option>
+                            <option value="Proposta">2 - Apresentação Comercial Feita</option>
+                            <option value="Negociação">3 - Em Negociação de Orçamento</option>
+                            <option value="Fechado">4 - Negócio Fechado (Assinando Contrato)</option>
+                            <option value="Perdido">5 - Negócio Perdido/Pausado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <hr style="border: 1px solid var(--border); margin: 25px 0;">
+
+                <h3 style="margin-bottom: 15px; color: var(--primary); font-size: 16px;">2. Diagnóstico Estratégico</h3>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label class="form-label">Perfil Preliminar Identificado</label>
+                        <select class="form-select" id="leadPerfil">
+                            <option value="Iniciante">Iniciante (Baixa maturidade, baixo recurso financeiro)</option>
+                            <option value="Barulhento">Barulhento (Exige suporte demais, confunde processos com suporte técnico)</option>
+                            <option value="Estruturado">Estruturado (Organizado, histórico positivo na gestão)</option>
+                            <option value="Potencial de Escala">Potencial Real (Usa pouco o sistema SCI, oportunidade clara de upgrade)</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Principais Travas / Dores Reclamadas (para basear o Orçamento)</label>
+                        <textarea class="form-textarea" id="leadDores" placeholder="Ex: Cliente tem inadimplência recorrente, falta de valorização da contabilidade, agenda bagunçada..."></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Plano de Serviços Sugerido p/ Solução</label>
+                        <select class="form-select" id="leadPlano">
+                            <option value="Plano 1 - Estruturação Base (Onboarding do Sistema)">Plano 1 - Estruturação Base (Onboarding do Sistema e Ajustes)</option>
+                            <option value="Plano 2 - Governança Contínua (Recorrente vs Subuso)">Plano 2 - Governança Contínua (Mitigar Subuso e Garantir Processos)</option>
+                            <option value="Plano 3 - Assessoria Premium (KPIs e Alinhamento Executivo)">Plano 3 - Assessoria Premium (KPIs e Alinhamento Executivo)</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label class="form-label">Valor-Hora Base ou Mensalidade Proposta (R$)</label>
+                        <input type="number" class="form-input" id="leadValor" placeholder="Valor protegido pelas amarras de escopo">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="fecharModal('modalLead')">Cancelar</button>
+                <button class="btn btn-primary" onclick="salvarLead()">Salvar Lead / Atualizar Funil</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Gerador de Documentos Comerciais (PDF/Impressão) -->
+    <div class="modal-overlay" id="modalDocumento">
+        <div class="modal" style="max-width: 900px;">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalDocTitulo">Apresentação Estratégica</h2>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="window.print()">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg> 
+                        Salvar em PDF / Imprimir
+                    </button>
+                    <button class="modal-close" onclick="fecharModal('modalDocumento')">
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body" style="background-color: white; color: #111; padding: 50px; border-radius: 8px;">
+                <div id="documentoPreview" style="font-family: Arial, Helvetica, sans-serif; line-height: 1.6;">
+                    <!-- Preenchido via JS baseado no lead -->
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Modal Entrega -->
     <div class="modal-overlay" id="modalEntrega">
