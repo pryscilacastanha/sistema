@@ -1032,10 +1032,7 @@
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                         <span>Gestão de Usuários</span>
                     </div>
-                    <div class="nav-item" data-page="empresas" style="font-size:13px;">
-                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                        <span>Empresas Vinculadas</span>
-                    </div>
+
                     <div class="nav-item" data-page="backup" style="font-size:13px;">
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
                         <span>Backup do Sistema</span>
@@ -2361,10 +2358,168 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
             </script>
         </section>
         <section id="page-backup" class="page-section">
-            <div class="page-header"><div><h1 class="page-title">Gestão de Backup</h1><p class="page-description">Em breve: Exportação e importação manual das bases de dados em lote.</p></div></div>
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Backup do Sistema</h1>
+                    <p class="page-description">Exportação do código com versão, data e histórico de implementações</p>
+                </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px;">
+
+                <!-- Exportar Versão -->
+                <div class="card">
+                    <div class="card-header"><h3 class="card-title">📦 Exportar Versão do Sistema</h3></div>
+                    <div class="card-body">
+                        <p style="font-size:13px;color:var(--text-muted);margin-bottom:20px;">Gera um arquivo de texto com o código completo do sistema, carimbo de data/hora e código de versão — para ser salvo e restaurado futuramente pelo Antigravity.</p>
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label class="form-label">Descrição desta versão</label>
+                                <input type="text" class="form-input" id="backupDescricao" placeholder="Ex: Adicionado módulo de consultoria, ajuste de tema...">
+                            </div>
+                        </div>
+                        <div style="padding:16px;background:var(--bg-hover);border-radius:10px;margin-bottom:16px;font-family:monospace;font-size:12px;color:var(--text-muted);" id="backupPreview">
+                            Clique em "Gerar" para ver o código de versão...
+                        </div>
+                        <div style="display:flex;gap:12px;">
+                            <button class="btn btn-secondary" onclick="gerarPreviewBackup()">🔍 Pré-visualizar</button>
+                            <button class="btn btn-primary" onclick="exportarBackup()">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:16px;height:16px;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                                Exportar e Baixar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Como restaurar -->
+                <div class="card" style="border:1px dashed var(--border);">
+                    <div class="card-header"><h3 class="card-title">🔄 Como Restaurar uma Versão</h3></div>
+                    <div class="card-body">
+                        <p style="font-size:13px;color:var(--text-muted);margin-bottom:12px;">Para restaurar o sistema a uma versão anterior via Antigravity:</p>
+                        <ol style="font-size:13px;color:var(--text-muted);line-height:2;padding-left:18px;">
+                            <li>Abra uma conversa no <strong>Antigravity</strong></li>
+                            <li>Cole o código de versão exportado (arquivo <code>.txt</code>)</li>
+                            <li>Diga: <em>"Restaurar esta versão do sistema"</em></li>
+                            <li>O Antigravity irá aplicar o código ao <code>index.html</code> e fazer deploy automaticamente</li>
+                        </ol>
+                        <div style="margin-top:16px;padding:12px;background:rgba(26,54,93,0.06);border-left:3px solid var(--primary);border-radius:6px;">
+                            <p style="font-size:12px;color:var(--primary);font-weight:600;margin:0;">💡 Guarde os arquivos exportados no OneDrive para acesso rápido</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Histórico de Versões -->
+            <div class="card">
+                <div class="card-header"><h3 class="card-title">📋 Histórico de Implementações</h3></div>
+                <div class="card-body" style="padding:0;">
+                    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+                        <thead><tr style="background:var(--bg-hover);">
+                            <th style="text-align:left;padding:12px 16px;font-weight:600;color:var(--text-muted);">Versão</th>
+                            <th style="text-align:left;padding:12px 8px;font-weight:600;color:var(--text-muted);">Data</th>
+                            <th style="text-align:left;padding:12px 8px;font-weight:600;color:var(--text-muted);">Descrição</th>
+                            <th style="text-align:center;padding:12px 8px;font-weight:600;color:var(--text-muted);">Status</th>
+                        </tr></thead>
+                        <tbody>
+                            <tr style="border-bottom:1px solid var(--border);">
+                                <td style="padding:12px 16px;font-family:monospace;font-weight:600;color:var(--primary);">v2026.04.01-007</td>
+                                <td style="padding:12px 8px;color:var(--text-muted);">01/04/2026</td>
+                                <td style="padding:12px 8px;">Gestão de Grupos completa: abas Colaboradores, Clientes Externos, Log de Acessos; permissões por módulo; cadastro Contabille</td>
+                                <td style="text-align:center;padding:12px 8px;"><span style="font-size:11px;padding:2px 10px;background:rgba(16,185,129,0.1);color:#059669;border-radius:20px;">Atual</span></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid var(--border);background:var(--bg-hover);">
+                                <td style="padding:12px 16px;font-family:monospace;font-weight:600;color:var(--text-muted);">v2026.04.01-006</td>
+                                <td style="padding:12px 8px;color:var(--text-muted);">01/04/2026</td>
+                                <td style="padding:12px 8px;">Tema alterado de escuro para branco e azul marinho; sidebar navy blue com textos brancos</td>
+                                <td style="text-align:center;padding:12px 8px;"><span style="font-size:11px;padding:2px 10px;background:rgba(113,128,150,0.1);color:var(--text-muted);border-radius:20px;">Anterior</span></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid var(--border);">
+                                <td style="padding:12px 16px;font-family:monospace;font-weight:600;color:var(--text-muted);">v2026.04.01-005</td>
+                                <td style="padding:12px 8px;color:var(--text-muted);">01/04/2026</td>
+                                <td style="padding:12px 8px;">Gestão de Grupos v1: Administrador e Acesso Cliente; modal de edição de grupo com matriz de permissões; edição de usuário</td>
+                                <td style="text-align:center;padding:12px 8px;"><span style="font-size:11px;padding:2px 10px;background:rgba(113,128,150,0.1);color:var(--text-muted);border-radius:20px;">Anterior</span></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid var(--border);background:var(--bg-hover);">
+                                <td style="padding:12px 16px;font-family:monospace;font-weight:600;color:var(--text-muted);">v2026.04.01-004</td>
+                                <td style="padding:12px 8px;color:var(--text-muted);">01/04/2026</td>
+                                <td style="padding:12px 8px;">Accordions em todos os módulos da sidebar; Painel Estratégico no Módulo Consultoria; barra de rolagem reativada</td>
+                                <td style="text-align:center;padding:12px 8px;"><span style="font-size:11px;padding:2px 10px;background:rgba(113,128,150,0.1);color:var(--text-muted);border-radius:20px;">Anterior</span></td>
+                            </tr>
+                            <tr style="border-bottom:1px solid var(--border);">
+                                <td style="padding:12px 16px;font-family:monospace;font-weight:600;color:var(--text-muted);">v2026.04.01-003</td>
+                                <td style="padding:12px 8px;color:var(--text-muted);">01/04/2026</td>
+                                <td style="padding:12px 8px;">Cadastros Gerais: renomeado e reorganizado; módulo Financeiro reordenado antes da Consultoria</td>
+                                <td style="text-align:center;padding:12px 8px;"><span style="font-size:11px;padding:2px 10px;background:rgba(113,128,150,0.1);color:var(--text-muted);border-radius:20px;">Anterior</span></td>
+                            </tr>
+                            <tr style="background:var(--bg-hover);">
+                                <td style="padding:12px 16px;font-family:monospace;font-weight:600;color:var(--text-muted);">v2026.03.30-001</td>
+                                <td style="padding:12px 8px;color:var(--text-muted);">30/03/2026</td>
+                                <td style="padding:12px 8px;">Versão inicial: CRM com 14 clientes, Painel de Planejamento Estratégico (7 reuniões), sistema de entregas e KPIs</td>
+                                <td style="text-align:center;padding:12px 8px;"><span style="font-size:11px;padding:2px 10px;background:rgba(113,128,150,0.1);color:var(--text-muted);border-radius:20px;">Anterior</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <script>
+                function gerarCodigoVersao() {
+                    var agora = new Date();
+                    var y = agora.getFullYear();
+                    var m = String(agora.getMonth()+1).padStart(2,'0');
+                    var d = String(agora.getDate()).padStart(2,'0');
+                    var h = String(agora.getHours()).padStart(2,'0');
+                    var mi = String(agora.getMinutes()).padStart(2,'0');
+                    var s = String(agora.getSeconds()).padStart(2,'0');
+                    var num = Math.floor(Math.random()*900)+100;
+                    return 'v'+y+'.'+m+'.'+d+'-'+h+mi+s+'-'+num;
+                }
+
+                function gerarPreviewBackup() {
+                    var codigo = gerarCodigoVersao();
+                    var desc = document.getElementById('backupDescricao').value || 'Sem descrição';
+                    var agora = new Date().toLocaleString('pt-BR');
+                    document.getElementById('backupPreview').innerHTML =
+                        '<strong>Código da Versão:</strong> ' + codigo + '<br>' +
+                        '<strong>Data/Hora:</strong> ' + agora + '<br>' +
+                        '<strong>Descrição:</strong> ' + desc + '<br>' +
+                        '<strong>Tamanho estimado:</strong> ~' + Math.round(document.documentElement.outerHTML.length/1024) + ' KB';
+                }
+
+                function exportarBackup() {
+                    var codigo = gerarCodigoVersao();
+                    var desc = document.getElementById('backupDescricao').value || 'Sem descrição';
+                    var agora = new Date().toLocaleString('pt-BR');
+                    var conteudo =
+                        '====================================================\n' +
+                        'BACKUP DO SISTEMA — SISTEMA DE CONSULTORIA\n' +
+                        '====================================================\n' +
+                        'Código da Versão : ' + codigo + '\n' +
+                        'Data/Hora        : ' + agora + '\n' +
+                        'Descrição        : ' + desc + '\n' +
+                        '====================================================\n\n' +
+                        'INSTRUÇÃO DE RESTAURAÇÃO:\n' +
+                        'Cole este arquivo no Antigravity e diga:\n' +
+                        '"Restaurar sistema para a versão ' + codigo + '"\n\n' +
+                        '====================================================\n' +
+                        'CÓDIGO-FONTE COMPLETO (index.html):\n' +
+                        '====================================================\n\n' +
+                        document.documentElement.outerHTML;
+
+                    var blob = new Blob([conteudo], {type:'text/plain;charset=utf-8'});
+                    var url = URL.createObjectURL(blob);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'backup_sistema_' + codigo + '.txt';
+                    a.click();
+                    URL.revokeObjectURL(url);
+
+                    if(typeof mostrarToast === 'function') mostrarToast('Backup exportado: ' + codigo, 'success');
+                }
+            </script>
         </section>
         <section id="page-versao" class="page-section">
-            <div class="page-header"><div><h1 class="page-title">Controle de Versão</h1><p class="page-description">Em breve: Log de alterações do sistema e auditoria.</p></div></div>
+            <div class="page-header"><div><h1 class="page-title">Log de Histórico</h1><p class="page-description">Registro de acessos, alterações e auditoria do sistema.</p></div></div>
         </section>
     </main>
 
