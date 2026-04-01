@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -2767,7 +2767,33 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                 dados.entregas = parsed.entregas || [];
                 dados.responsaveis = parsed.responsaveis || dados.responsaveis;
             }
+
+            // Seed: Contabille (ID fixo para evitar duplicata)
+            const CONTABILLE_ID = 1000001;
+            if (!dados.empresas.find(e => e.id === CONTABILLE_ID)) {
+                dados.empresas.push({
+                    id: CONTABILLE_ID,
+                    nome: 'Contabille Negócio Contábil Ltda',
+                    cnpj: '39.268.534/0001-39',
+                    enquadramento: 'Lucro Presumido',
+                    responsavel: '',
+                    email: 'contabbile@gmail.com',
+                    telefone: '(51) 9231-8208',
+                    status: 'Ativo',
+                    observacoes: 'SERVIÇO: Plano Essencial — Consultoria Operacional\n\nESCOPO: Diagnóstico operacional, organização e governança de tarefas, estruturação e revisão do processo de onboarding de clientes, gestão de prazos, organização de fluxos internos e apoio estratégico à liderança.\n\nHONORÁRIOS: R$ 2.000,00/mês\n\nVIGÊNCIA: 20/01/2026 a 20/04/2026\n\nCARGA HORÁRIA: 8h mensais\n\nOBSERVAÇÃO: Excluída do escopo a execução direta de rotinas contábeis, fiscais, trabalhistas, administrativas ou operacionais.',
+                    grupoAcesso: 'consultoria',
+                    honorarios: 'R$ 2.000,00',
+                    plano: 'Plano Essencial',
+                    cargaHoraria: '8h mensais',
+                    vigenciaInicio: '2026-01-20',
+                    vigenciaFim: '2026-04-20',
+                    criadoEm: '2026-01-20T00:00:00.000Z',
+                    atualizadoEm: new Date().toISOString()
+                });
+                salvarDados();
+            }
         }
+
 
         function salvarDados() {
             localStorage.setItem('gestaoContabil', JSON.stringify(dados));
