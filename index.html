@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -9,22 +9,22 @@
         :root {
             --primary: #1a365d;
             --primary-light: #2c5282;
-            --secondary: #319795;
+            --secondary: #2b6cb0;
             --accent: #ed8936;
-            --danger: #e53e3e;
-            --success: #38a169;
-            --warning: #d69e2e;
-            --bg-dark: #0f172a;
-            --bg-card: #1e293b;
-            --bg-hover: #334155;
-            --text-primary: #f1f5f9;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --border: #334155;
+            --danger: #c53030;
+            --success: #276749;
+            --warning: #b7791f;
+            --bg-dark: #f0f4f8;
+            --bg-card: #ffffff;
+            --bg-hover: #e8f0fe;
+            --text-primary: #1a202c;
+            --text-secondary: #2d3748;
+            --text-muted: #718096;
+            --border: #c8d8e8;
             --gradient-1: linear-gradient(135deg, #1a365d 0%, #2c5282 100%);
-            --gradient-2: linear-gradient(135deg, #319795 0%, #2c7a7b 100%);
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+            --gradient-2: linear-gradient(135deg, #2b6cb0 0%, #1a365d 100%);
+            --shadow: 0 2px 8px rgba(26, 54, 93, 0.08), 0 1px 3px rgba(26, 54, 93, 0.05);
+            --shadow-lg: 0 8px 24px rgba(26, 54, 93, 0.12), 0 4px 8px rgba(26, 54, 93, 0.06);
         }
 
         * {
@@ -49,10 +49,10 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(49, 151, 149, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(26, 54, 93, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(237, 137, 54, 0.05) 0%, transparent 30%);
+            background:
+                radial-gradient(circle at 10% 90%, rgba(26, 54, 93, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 90% 10%, rgba(43, 108, 176, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(200, 216, 232, 0.2) 0%, transparent 60%);
             pointer-events: none;
             z-index: 0;
         }
@@ -64,8 +64,8 @@
             top: 0;
             width: 280px;
             height: 100vh;
-            background: var(--bg-card);
-            border-right: 1px solid var(--border);
+            background: #1a365d;
+            border-right: none;
             padding: 24px;
             z-index: 100;
             display: flex;
@@ -78,7 +78,7 @@
             align-items: center;
             gap: 12px;
             padding-bottom: 24px;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid rgba(255,255,255,0.15);
             margin-bottom: 24px;
         }
 
@@ -104,12 +104,12 @@
         .logo-title {
             font-weight: 700;
             font-size: 18px;
-            color: var(--text-primary);
+            color: #ffffff;
         }
 
         .logo-subtitle {
             font-size: 12px;
-            color: var(--text-muted);
+            color: rgba(255,255,255,0.6);
             font-family: 'Space Mono', monospace;
         }
 
@@ -120,7 +120,7 @@
         .nav-section-title {
             font-size: 11px;
             font-weight: 600;
-            color: var(--text-muted);
+            color: rgba(255,255,255,0.45);
             text-transform: uppercase;
             letter-spacing: 1px;
             margin-bottom: 12px;
@@ -135,18 +135,19 @@
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s ease;
-            color: var(--text-secondary);
+            color: rgba(255,255,255,0.75);
             margin-bottom: 4px;
         }
 
         .nav-item:hover {
-            background: var(--bg-hover);
-            color: var(--text-primary);
+            background: rgba(255,255,255,0.1);
+            color: #ffffff;
         }
 
         .nav-item.active {
-            background: var(--gradient-2);
+            background: rgba(255,255,255,0.18);
             color: white;
+            font-weight: 600;
         }
 
         .nav-item svg {
