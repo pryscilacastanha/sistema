@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -1599,13 +1599,15 @@
                     mostrarEmbedGoogle(url);
                 };
 
+                var DEFAULT_GOOGLE_CAL = 'https://calendar.google.com/calendar/embed?src=ypcastanha%40gmail.com&ctz=America%2FSao_Paulo';
+
                 function mostrarEmbedGoogle(url) {
                     document.getElementById('googleIframeContainer').innerHTML =
-                        '<iframe src="' + url + '" style="width:100%;height:500px;border:none;border-radius:10px;" allowfullscreen></iframe>';
+                        '<iframe src="' + url + '" style="width:100%;height:680px;border:none;border-radius:10px;" allowfullscreen></iframe>';
                 }
 
-                // Init
-                var savedGoogle = localStorage.getItem('googleCalEmbed');
+                // Init — usa URL salva ou a padrão
+                var savedGoogle = localStorage.getItem('googleCalEmbed') || DEFAULT_GOOGLE_CAL;
                 if(savedGoogle) {
                     document.getElementById('googleCalUrl') && (document.getElementById('googleCalUrl').value = savedGoogle);
                     mostrarEmbedGoogle(savedGoogle);
