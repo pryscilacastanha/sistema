@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -3504,6 +3504,7 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
 
             <!-- Formulário de Passe -->
             <div id="passeEditor" style="display:none;">
+                <input type="hidden" id="psBEditId">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
                     <h3 style="margin:0;color:var(--primary);">📋 Ficha de Passe de Bastão</h3>
                     <div style="display:flex;gap:10px;">
@@ -3637,6 +3638,7 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                     document.getElementById('psBInicio').value=new Date().toISOString().slice(0,10);
                     document.getElementById('psBStatus').value='Aguardando';
                     document.getElementById('psBModulo').value='';
+                    document.getElementById('psBEditId').value='';
                     document.getElementById('passeEditor').style.display='block';
                     document.getElementById('listaPasses').style.display='none';
                 };
@@ -3667,8 +3669,10 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                     var cliente = document.getElementById('psBCliente').value.trim();
                     if(!cliente){ if(typeof mostrarToast==='function') mostrarToast('Informe o nome do cliente.','error'); return; }
                     var modulo = document.getElementById('psBModulo').value;
+                    var editIdRaw = document.getElementById('psBEditId').value;
+                    var editId = editIdRaw ? parseInt(editIdRaw) : null;
                     var obj = {
-                        id: nextPBId++,
+                        id: editId || nextPBId++,
                         cliente: cliente,
                         contato: document.getElementById('psBContato').value,
                         telefone: document.getElementById('psBTelefone').value,
@@ -3686,20 +3690,31 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                         obs: document.getElementById('psBObs').value,
                         dataRegistro: new Date().toLocaleDateString('pt-BR')
                     };
-                    passes.push(obj);
+                    if(editId){
+                        // Atualiza o passe existente (sem duplicar)
+                        var idx = passes.findIndex(function(p){ return p.id === editId; });
+                        if(idx >= 0) passes[idx] = obj; else passes.push(obj);
+                    } else {
+                        // Verificar duplicata por nome de cliente
+                        var jaExiste = passes.some(function(p){ return p.cliente.toLowerCase() === cliente.toLowerCase(); });
+                        if(jaExiste){
+                            if(typeof mostrarToast==='function') mostrarToast('Este cliente já possui um Passe de Bastão. Clique no card para editar.','warning');
+                            return;
+                        }
+                        passes.push(obj);
+                    }
                     salvarPasses();
-                    // ---- Publicar brief no módulo de destino ----
+                    // ---- Publicar/atualizar brief no módulo de destino ----
                     if(modulo){
                         var chave = 'clientesBriefs_' + modulo;
                         var briefs = JSON.parse(localStorage.getItem(chave) || '[]');
-                        // Evitar duplicata pelo mesmo id
                         briefs = briefs.filter(function(b){ return b.id !== obj.id; });
                         briefs.push(obj);
                         localStorage.setItem(chave, JSON.stringify(briefs));
                     }
                     renderPasses();
                     fecharPasseEditor();
-                    if(typeof registrarLog==='function') registrarLog('Inclusão','Passe de Bastão','Novo passe: '+cliente+(modulo?' → '+modulo:''));
+                    if(typeof registrarLog==='function') registrarLog(editId?'Alteração':'Inclusão','Passe de Bastão',cliente+(modulo?' → '+modulo:''));
                     if(typeof mostrarToast==='function') mostrarToast('Passe salvo' + (modulo ? ' e enviado para '+modulo+'!' : '!'), 'success');
                 };
 
@@ -3721,15 +3736,26 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                     document.getElementById('psBEscopo').value = p.escopo||'';
                     document.getElementById('psBFerramentas').value = p.ferramentas||'';
                     document.getElementById('psBObs').value = p.obs||'';
+                    document.getElementById('psBEditId').value = p.id;
                     document.getElementById('passeEditor').style.display='block';
                     document.getElementById('listaPasses').style.display='none';
                 };
 
                 window.excluirPasse = function(id){
-                    if(!confirm('Excluir este passe?')) return;
+                    var passe = passes.find(function(p){return p.id===id;});
+                    var destino = passe && passe.modulo ? passe.modulo : null;
+                    var msg = 'Excluir este passe?' + (destino ? '\nIso também removerá o brief do módulo '+destino+'.' : '');
+                    if(!confirm(msg)) return;
                     passes = passes.filter(function(p){return p.id!==id;});
+                    // Remover brief do módulo associado (todos, por segurança)
+                    ['consultoria','mentoria','assessoria'].forEach(function(m){
+                        var chave = 'clientesBriefs_'+m;
+                        var briefs = JSON.parse(localStorage.getItem(chave)||'[]');
+                        briefs = briefs.filter(function(b){return b.id!==id;});
+                        localStorage.setItem(chave, JSON.stringify(briefs));
+                    });
                     salvarPasses(); renderPasses();
-                    if(typeof mostrarToast==='function') mostrarToast('Passe excluído.','success');
+                    if(typeof mostrarToast==='function') mostrarToast('Passe excluído'+(destino?' e removido do módulo '+destino:'')+'!','success');
                 };
 
                 window.imprimirPasse = function(){ window.print(); };
