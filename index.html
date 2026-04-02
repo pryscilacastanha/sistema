@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -3608,7 +3608,9 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                         var moduloLabel = {'consultoria':'📊 Consultoria','mentoria':'🎓 Mentoria','assessoria':'📋 Assessoria'};
                         var moduloPage = p.modulo || '';
                         var moduloBadge = moduloPage ? '<span style="font-size:10px;background:#EBF4FF;color:#1a365d;padding:2px 8px;border-radius:20px;font-weight:700;margin-top:4px;display:inline-block;">'+(moduloLabel[moduloPage]||moduloPage)+'</span>' : '';
-                        var navBtn = moduloPage ? '<button class="btn btn-primary btn-small" style="font-size:10px;margin-top:6px;" onclick="event.stopPropagation();mostrarSecao(\'page-'+moduloPage+'\')">Ir para Módulo →</button>' : '';
+                        var moduloPageMap = {'consultoria':'planejamento','mentoria':'historico_mentoria','assessoria':'entregas'};
+                        var targetPage = moduloPageMap[moduloPage] || moduloPage;
+                        var navBtn = moduloPage ? '<button class="btn btn-primary btn-small" style="font-size:10px;margin-top:6px;" onclick="event.stopPropagation();navegarPara(\''+targetPage+'\')">Ir para Módulo →</button>' : '';
                         return '<div class="card" style="cursor:pointer;border-left:4px solid '+cor+';" onclick="reabrirPasse('+p.id+')">' +
                             '<div class="card-body">' +
                                 '<div style="display:flex;justify-content:space-between;align-items:flex-start;">' +
