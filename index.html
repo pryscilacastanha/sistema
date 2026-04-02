@@ -2060,8 +2060,433 @@
         </section>
         <section id="page-gestao_contratos" class="page-section">
             <div class="page-header">
-                <div><h1 class="page-title">Gestão de Contratos</h1><p class="page-description">Análise e acompanhamento jurídico/comercial</p></div>
+                <div>
+                    <h1 class="page-title">Gestão de Contratos</h1>
+                    <p class="page-description">Gere e gerencie contratos de prestação de serviços por cliente</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="novoContrato()">+ Novo Contrato</button>
+                </div>
             </div>
+
+            <!-- Seleção rápida de Lead/Cliente -->
+            <div class="card" style="margin-bottom:20px;">
+                <div class="card-body" style="display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap;">
+                    <div class="form-group" style="flex:1;min-width:220px;margin:0;">
+                        <label class="form-label">Gerar contrato a partir de um Lead/Cliente:</label>
+                        <select class="filter-select" id="selecionarLeadContrato" style="width:100%;padding:10px 14px;"></select>
+                    </div>
+                    <button class="btn btn-primary" onclick="gerarContratoFromLead()" style="height:40px;">Gerar Contrato</button>
+                    <button class="btn btn-secondary" onclick="novoContrato()" style="height:40px;">Contrato em branco</button>
+                </div>
+            </div>
+
+            <!-- Editor de contrato -->
+            <div id="contratoEditor" style="display:none;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+                    <h3 style="margin:0;color:var(--primary);">✏️ Dados do Contrato</h3>
+                    <div style="display:flex;gap:10px;">
+                        <button class="btn btn-secondary" onclick="imprimirContrato()">🖨️ Imprimir / Salvar PDF</button>
+                        <button class="btn btn-secondary" onclick="fecharContratoEditor()">Fechar</button>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom:16px;">
+                    <div class="card-header"><h3 class="card-title">CONTRATANTE (Cliente)</h3></div>
+                    <div class="card-body">
+                        <div class="form-grid">
+                            <div class="form-group"><label class="form-label">Razão Social / Nome Completo *</label><input type="text" class="form-input" id="ctrNome" placeholder="Contabile Negócio Contábil Ltda"></div>
+                            <div class="form-group"><label class="form-label">CNPJ / CPF *</label><input type="text" class="form-input" id="ctrCNPJ"></div>
+                            <div class="form-group"><label class="form-label">Endereço completo</label><input type="text" class="form-input" id="ctrEndereco" placeholder="Rua XV de Novembro, 123 — Porto Alegre/RS"></div>
+                            <div class="form-group"><label class="form-label">Representante Legal</label><input type="text" class="form-input" id="ctrRepresentante" placeholder="Amanda Vitória"></div>
+                            <div class="form-group"><label class="form-label">E-mail</label><input type="email" class="form-input" id="ctrEmail"></div>
+                            <div class="form-group"><label class="form-label">Telefone / WhatsApp</label><input type="text" class="form-input" id="ctrTelefone"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card" style="margin-bottom:16px;">
+                    <div class="card-header"><h3 class="card-title">Condições Comerciais</h3></div>
+                    <div class="card-body">
+                        <div class="form-grid">
+                            <div class="form-group"><label class="form-label">Data de início *</label><input type="date" class="form-input" id="ctrInicio"></div>
+                            <div class="form-group"><label class="form-label">Duração do contrato</label>
+                                <select class="filter-select" id="ctrDuracao" style="width:100%;">
+                                    <option value="3 (três) meses">3 meses</option>
+                                    <option value="6 (seis) meses" selected>6 meses (semestral)</option>
+                                    <option value="12 (doze) meses">12 meses (anual)</option>
+                                    <option value="prazo indeterminado">Prazo indeterminado</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label class="form-label">Valor mensal (R$) *</label><input type="text" class="form-input" id="ctrValor" placeholder="2.000,00"></div>
+                            <div class="form-group"><label class="form-label">Dia de vencimento</label><input type="number" class="form-input" id="ctrVencimento" min="1" max="28" value="5"></div>
+                            <div class="form-group"><label class="form-label">Plano</label>
+                                <select class="filter-select" id="ctrPlano" style="width:100%;">
+                                    <option value="Essencial">Plano Essencial — 8h/mês</option>
+                                    <option value="Estratégico">Plano Estratégico — 10h/mês</option>
+                                    <option value="Avançado">Plano Avançado — 12h/mês</option>
+                                    <option value="Personalizado">Personalizado</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label class="form-label">Aviso prévio para rescisão</label>
+                                <select class="filter-select" id="ctrAviso" style="width:100%;">
+                                    <option value="30 (trinta) dias">30 dias</option>
+                                    <option value="15 (quinze) dias">15 dias</option>
+                                    <option value="60 (sessenta) dias">60 dias</option>
+                                </select>
+                            </div>
+                            <div class="form-group full-width"><label class="form-label">Escopo dos serviços (um item por linha) *</label>
+                                <textarea class="form-textarea" id="ctrEscopo" rows="6" placeholder="Diagnóstico operacional do escritório&#10;Mapeamento e organização de processos internos&#10;Estruturação do onboarding de clientes&#10;Gestão de prazos e tarefas&#10;Acompanhamento da equipe e da liderança&#10;Apoio estratégico à gestão"></textarea>
+                            </div>
+                            <div class="form-group full-width"><label class="form-label">Exclusões expressas do escopo</label>
+                                <textarea class="form-textarea" id="ctrExclusoes" rows="3" placeholder="Execução direta de rotinas contábeis, fiscais, trabalhistas ou operacionais..."></textarea>
+                            </div>
+                        </div>
+                        <div style="text-align:right;margin-top:14px;">
+                            <button class="btn btn-primary" onclick="renderizarContrato()">👁️ Visualizar Contrato</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Preview -->
+                <div id="contratoPreview" style="display:none;"></div>
+            </div>
+
+            <!-- Lista de contratos salvos -->
+            <div id="listaContratos">
+                <h3 style="margin:0 0 14px;color:var(--text-primary);font-size:16px;">Contratos Gerados</h3>
+                <div id="cardsContratos" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;"></div>
+                <div id="semContratos" style="text-align:center;padding:40px;color:var(--text-muted);display:none;">
+                    Nenhum contrato gerado ainda. Clique em "+ Novo Contrato" para começar.
+                </div>
+            </div>
+
+            <style>
+            /* ===== IMPRESSÃO ===== */
+            @media print {
+                #contratoFull { display:block!important; }
+            }
+            #contratoFull {
+                font-family: "Times New Roman", serif;
+                max-width: 820px;
+                margin: auto;
+                background: #fff;
+                color: #1a1a1a;
+                padding: 40px 48px;
+                line-height: 1.8;
+                font-size: 12pt;
+            }
+            #contratoFull h1.ctr-main-title {
+                text-align:center;font-size:15pt;font-weight:800;
+                text-transform:uppercase;letter-spacing:2px;
+                color:#1a365d;margin:0 0 6px;
+            }
+            #contratoFull .ctr-subtitle {
+                text-align:center;font-size:10pt;color:#718096;margin-bottom:30px;
+            }
+            #contratoFull .ctr-party-block {
+                background:#f7faff;border-left:4px solid #1a365d;
+                padding:16px 20px;border-radius:0 8px 8px 0;margin-bottom:12px;
+            }
+            #contratoFull .ctr-party-label {
+                font-size:9pt;font-weight:700;text-transform:uppercase;
+                letter-spacing:2px;color:#1a365d;margin-bottom:8px;
+            }
+            #contratoFull .ctr-party-data { font-size:11pt;line-height:2; }
+            #contratoFull .ctr-section-title {
+                font-size:11pt;font-weight:700;color:#1a365d;
+                text-transform:uppercase;letter-spacing:1px;
+                margin:24px 0 10px;border-bottom:1px solid #c3dafe;padding-bottom:4px;
+            }
+            #contratoFull .ctr-clause {
+                margin-bottom:12px;font-size:11pt;line-height:1.9;text-align:justify;
+            }
+            #contratoFull .ctr-clause strong { color:#1a365d; }
+            #contratoFull .ctr-scope-item { margin-left:20px;margin-bottom:4px;font-size:11pt; }
+            #contratoFull .ctr-signatures {
+                display:grid;grid-template-columns:1fr 1fr;gap:48px;margin-top:60px;
+            }
+            #contratoFull .ctr-sig-block { text-align:center; }
+            #contratoFull .ctr-sig-line { border-top:1px solid #1a1a1a;margin-top:60px;padding-top:8px;font-size:10pt; }
+            #contratoFull .ctr-footer {
+                text-align:center;margin-top:28px;font-size:9pt;color:#718096;
+                border-top:1px solid #e2e8f0;padding-top:14px;
+            }
+            .ctr-number-badge {
+                display:inline-block;background:#1a365d;color:#fff;
+                padding:5px 14px;border-radius:20px;font-size:10pt;
+                font-weight:700;margin-bottom:18px;
+            }
+            </style>
+
+            <script>
+            (function(){
+                var contratos = JSON.parse(localStorage.getItem('contratosGerados') || '[]');
+                var nextCId = contratos.length ? Math.max.apply(null, contratos.map(function(c){return c.id;})) + 1 : 1;
+
+                function salvarContratos() { localStorage.setItem('contratosGerados', JSON.stringify(contratos)); }
+
+                function popularLeadsContrato() {
+                    var sel = document.getElementById('selecionarLeadContrato');
+                    if(!sel) return;
+                    var stored = localStorage.getItem('crmOportunidades');
+                    var oport = stored ? JSON.parse(stored) : [];
+                    sel.innerHTML = '<option value="">— Selecione um Lead —</option>' +
+                        oport.map(function(o){ return '<option value="'+o.id+'">'+o.nome+'</option>'; }).join('');
+                }
+
+                function renderCardsContratos() {
+                    var container = document.getElementById('cardsContratos');
+                    var semC = document.getElementById('semContratos');
+                    if(!container) return;
+                    if(contratos.length === 0) { container.innerHTML=''; if(semC) semC.style.display='block'; return; }
+                    if(semC) semC.style.display='none';
+                    container.innerHTML = contratos.slice().reverse().map(function(c){
+                        var badge = c.ativo ? '<span style="font-size:10px;background:rgba(5,150,105,0.12);color:#059669;padding:2px 8px;border-radius:20px;font-weight:700;">● Ativo</span>' :
+                            '<span style="font-size:10px;background:#FEF3C7;color:#92400E;padding:2px 8px;border-radius:20px;font-weight:700;">Encerrado</span>';
+                        return '<div class="card" style="cursor:pointer;" onclick="reabrirContrato('+c.id+')">' +
+                            '<div class="card-body">' +
+                                '<div style="display:flex;justify-content:space-between;align-items:flex-start;">' +
+                                    '<div>' +
+                                        '<p style="font-size:14px;font-weight:700;margin:0 0 3px;color:var(--text-primary);">'+c.nome+'</p>' +
+                                        '<p style="font-size:11px;color:var(--text-muted);margin:0 0 6px;">'+c.cnpj+'</p>' +
+                                        '<span style="font-size:11px;background:rgba(26,54,93,0.08);color:#1a365d;padding:2px 8px;border-radius:20px;font-weight:600;">R$ '+c.valor+'/mês</span>' +
+                                        '<span style="margin-left:8px;">' + badge + '</span>' +
+                                    '</div>' +
+                                    '<div style="text-align:right;">' +
+                                        '<p style="font-size:10px;color:var(--text-muted);margin:0;">'+c.inicio+'</p>' +
+                                        '<p style="font-size:11px;font-weight:700;color:#1a365d;margin:4px 0 0;">Nº '+String(c.id).padStart(6,'0')+'</p>' +
+                                        '<button class="btn btn-danger btn-small" style="margin-top:8px;font-size:10px;" onclick="event.stopPropagation();excluirContrato('+c.id+')">Excluir</button>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>';
+                    }).join('');
+                }
+
+                window.gerarContratoFromLead = function() {
+                    var sel = document.getElementById('selecionarLeadContrato');
+                    if(!sel || !sel.value) { if(typeof mostrarToast==='function') mostrarToast('Selecione um Lead.','warning'); return; }
+                    var id = parseInt(sel.value);
+                    var stored = localStorage.getItem('crmOportunidades');
+                    var oport = stored ? JSON.parse(stored) : [];
+                    var o = oport.find(function(x){return x.id===id;});
+                    if(!o) return;
+                    document.getElementById('ctrNome').value = o.nome;
+                    document.getElementById('ctrCNPJ').value = o.cnpj||'';
+                    document.getElementById('ctrEmail').value = o.email||'';
+                    document.getElementById('ctrTelefone').value = o.telefone||'';
+                    document.getElementById('ctrRepresentante').value = o.responsavel||'';
+                    document.getElementById('ctrValor').value = o.valor||'';
+                    document.getElementById('ctrInicio').value = new Date().toISOString().slice(0,10);
+                    document.getElementById('ctrVencimento').value = o.vencimento||5;
+                    var escopoLines = (o.escopo||'').split(/[;]/).map(function(s){return s.trim();}).join('\n');
+                    document.getElementById('ctrEscopo').value = escopoLines || 'Diagnóstico operacional\nMapeamento de processos internos\nEstruturação do onboarding de clientes\nGestão de prazos e tarefas\nAcompanhamento da equipe e da liderança\nApoio estratégico à gestão';
+                    document.getElementById('ctrExclusoes').value = 'A execução direta de rotinas contábeis, fiscais, trabalhistas, administrativas ou operacionais, bem como quaisquer atividades de natureza executiva, salvo se formalmente pactuadas em instrumento específico.';
+                    document.getElementById('contratoEditor').style.display='block';
+                    document.getElementById('listaContratos').style.display='none';
+                    document.getElementById('contratoPreview').style.display='none';
+                };
+
+                window.novoContrato = function() {
+                    ['ctrNome','ctrCNPJ','ctrEndereco','ctrRepresentante','ctrEmail','ctrTelefone','ctrValor'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+                    document.getElementById('ctrInicio').value = new Date().toISOString().slice(0,10);
+                    document.getElementById('ctrVencimento').value = 5;
+                    document.getElementById('ctrEscopo').value = 'Diagnóstico operacional do escritório\nMapeamento e organização de processos internos\nEstruturação do onboarding de clientes\nGestão de prazos e tarefas\nAcompanhamento da equipe e da liderança\nApoio estratégico à gestão';
+                    document.getElementById('ctrExclusoes').value = 'A execução direta de rotinas contábeis, fiscais, trabalhistas, administrativas ou operacionais, bem como quaisquer atividades de natureza executiva, salvo se formalmente pactuadas em instrumento específico.';
+                    document.getElementById('contratoEditor').style.display='block';
+                    document.getElementById('listaContratos').style.display='none';
+                    document.getElementById('contratoPreview').style.display='none';
+                };
+
+                window.fecharContratoEditor = function() {
+                    document.getElementById('contratoEditor').style.display='none';
+                    document.getElementById('listaContratos').style.display='block';
+                };
+
+                window.renderizarContrato = function() {
+                    var nome = document.getElementById('ctrNome').value.trim();
+                    if(!nome){ if(typeof mostrarToast==='function') mostrarToast('Informe o nome do contratante.','error'); return; }
+                    var cnpj = document.getElementById('ctrCNPJ').value.trim();
+                    var endereco = document.getElementById('ctrEndereco').value.trim();
+                    var representante = document.getElementById('ctrRepresentante').value.trim();
+                    var email = document.getElementById('ctrEmail').value.trim();
+                    var telefone = document.getElementById('ctrTelefone').value.trim();
+                    var inicioVal = document.getElementById('ctrInicio').value;
+                    var inicioBR = inicioVal ? new Date(inicioVal+'T12:00').toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'}) : '';
+                    var duracao = document.getElementById('ctrDuracao').value;
+                    var valor = document.getElementById('ctrValor').value.trim()||'2.000,00';
+                    var vencimento = document.getElementById('ctrVencimento').value||'5';
+                    var plano = document.getElementById('ctrPlano').value;
+                    var aviso = document.getElementById('ctrAviso').value;
+                    var escopoItems = document.getElementById('ctrEscopo').value.trim().split('\n').filter(function(s){return s.trim();});
+                    var exclusoes = document.getElementById('ctrExclusoes').value.trim();
+                    var valorNum = parseFloat(valor.replace(/\./g,'').replace(',','.'));
+                    var valorExtenso = valor; // simplificação — usuário pode ajustar
+                    var contratoNum = 'CONS_'+new Date().getFullYear()+'.'+String(nextCId).padStart(5,'0');
+                    var hoje = new Date().toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'});
+
+                    var html = '<div id="contratoFull">' +
+                    '<div style="text-align:center;margin-bottom:6px;">' +
+                        '<span class="ctr-number-badge">'+contratoNum+'</span>' +
+                    '</div>' +
+                    '<h1 class="ctr-main-title">Contrato de Prestação de Serviços de Consultoria</h1>' +
+                    '<p class="ctr-subtitle">Prestação de serviços de consultoria operacional, liderança e processos</p>' +
+
+                    // Partes
+                    '<div class="ctr-party-block">' +
+                        '<div class="ctr-party-label">CONTRATADA</div>' +
+                        '<div class="ctr-party-data">' +
+                            '<strong>Razão Social:</strong> Y. P. M. Castanha<br>' +
+                            '<strong>Nome Fantasia:</strong> Quality Gestão Empresarial<br>' +
+                            '<strong>CNPJ:</strong> 54.738.799/0001-47<br>' +
+                            '<strong>E-mail:</strong> ypcastanha@gmail.com<br>' +
+                            '<strong>Telefone:</strong> (51) 98527-7713<br>' +
+                            '<strong>Representante:</strong> Pryscila Castanha' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="ctr-party-block">' +
+                        '<div class="ctr-party-label">CONTRATANTE</div>' +
+                        '<div class="ctr-party-data">' +
+                            '<strong>Razão Social / Nome:</strong> '+nome+'<br>' +
+                            (cnpj?'<strong>CNPJ/CPF:</strong> '+cnpj+'<br>':'')+
+                            (endereco?'<strong>Endereço:</strong> '+endereco+'<br>':'')+
+                            (representante?'<strong>Representante:</strong> '+representante+'<br>':'')+
+                            (email?'<strong>E-mail:</strong> '+email+'<br>':'')+
+                            (telefone?'<strong>Tel/WhatsApp:</strong> '+telefone:'')+
+                        '</div>' +
+                    '</div>' +
+
+                    // Qualificação
+                    '<p class="ctr-clause">As partes acima qualificadas têm, entre si, justo e acordado o presente <strong>Contrato de Prestação de Serviços de Consultoria</strong>, que se regerá pelas cláusulas e condições seguintes, bem como pelas disposições da Lei nº 13.966/2019, do Código Civil Brasileiro (Lei nº 10.406/2002) e demais legislações aplicáveis.</p>' +
+
+                    // CLÁUSULA 1 — DO OBJETO
+                    '<div class="ctr-section-title">Cláusula 1ª — Do Objeto</div>' +
+                    '<p class="ctr-clause"><strong>1.1.</strong> O presente contrato tem por objeto a prestação, pela CONTRATADA, de serviços de consultoria operacional, liderança e processos, compreendendo:</p>' +
+                    escopoItems.map(function(item,i){ return '<p class="ctr-scope-item"><strong>'+(i+1)+'.</strong> '+item.trim()+'</p>'; }).join('') +
+                    '<p class="ctr-clause"><strong>1.2.</strong> O enquadramento dos serviços corresponde ao <strong>'+plano+'</strong>.</p>' +
+                    (exclusoes ? '<p class="ctr-clause"><strong>1.3. Ficam expressamente excluídos do presente escopo:</strong> '+exclusoes+'</p>' : '') +
+                    '<p class="ctr-clause"><strong>1.4.</strong> A realização de atividades não previstas neste escopo dependerá de prévio alinhamento entre as partes e da formalização de ajuste contratual específico, por meio de aditivo ou novo contrato.</p>' +
+
+                    // CLÁUSULA 2 — DA VIGÊNCIA
+                    '<div class="ctr-section-title">Cláusula 2ª — Da Vigência</div>' +
+                    '<p class="ctr-clause"><strong>2.1.</strong> O presente contrato vigorará por <strong>'+duracao+'</strong>, com início em <strong>'+inicioBR+'</strong>, podendo ser renovado mediante manifestação expressa de ambas as partes antes do término da vigência.</p>' +
+                    '<p class="ctr-clause"><strong>2.2.</strong> O contrato será renovado automaticamente pelo mesmo período, salvo comunicação formal de rescisão com antecedência mínima de '+aviso+'.</p>' +
+
+                    // CLÁUSULA 3 — DO PAGAMENTO
+                    '<div class="ctr-section-title">Cláusula 3ª — Do Pagamento</div>' +
+                    '<p class="ctr-clause"><strong>3.1.</strong> Pelos serviços prestados, o CONTRATANTE pagará à CONTRATADA o valor mensal de <strong>R$ '+valor+' ('+valorExtenso+' reais)</strong>, com vencimento todo dia <strong>'+vencimento+'</strong> de cada mês.</p>' +
+                    '<p class="ctr-clause"><strong>3.2.</strong> O pagamento deverá ser realizado preferencialmente via PIX, transferência bancária ou boleto, mediante as informações fornecidas pela CONTRATADA.</p>' +
+                    '<p class="ctr-clause"><strong>3.3.</strong> O atraso no pagamento por mais de <strong>15 (quinze) dias</strong> ensejará a suspensão dos serviços, sem prejuízo da cobrança de multa moratória de <strong>2% (dois por cento)</strong> sobre o valor em atraso, acrescida de juros de <strong>1% (um por cento)</strong> ao mês e correção monetária pelo IGP-M.</p>' +
+                    '<p class="ctr-clause"><strong>3.4.</strong> Os valores serão reajustados anualmente com base no IPCA ou índice que vier a substituí-lo, sendo o CONTRATANTE notificado com antecedência mínima de 30 dias.</p>' +
+
+                    // CLÁUSULA 4 — DAS OBRIGAÇÕES DA CONTRATADA
+                    '<div class="ctr-section-title">Cláusula 4ª — Das Obrigações da Contratada</div>' +
+                    '<p class="ctr-clause"><strong>4.1.</strong> São obrigações da CONTRATADA:</p>' +
+                    ['Prestar os serviços contratados com diligência, pontualidade e alto padrão técnico;',
+                     'Guardar sigilo sobre as informações e dados do CONTRATANTE, inclusive após o encerramento do contrato;',
+                     'Comunicar ao CONTRATANTE, com antecedência, qualquer impossibilidade de cumprimento dos prazos acordados;',
+                     'Emitir Nota Fiscal ou documento equivalente pelos serviços prestados.'].map(function(item,i){
+                        return '<p class="ctr-scope-item"><strong>'+(i+1)+'.</strong> '+item+'</p>';
+                    }).join('') +
+
+                    // CLÁUSULA 5 — DAS OBRIGAÇÕES DO CONTRATANTE
+                    '<div class="ctr-section-title">Cláusula 5ª — Das Obrigações do Contratante</div>' +
+                    '<p class="ctr-clause"><strong>5.1.</strong> São obrigações do CONTRATANTE:</p>' +
+                    ['Fornecer as informações, documentos e acessos necessários para a boa execução dos serviços;',
+                     'Efetuar os pagamentos nas datas e condições pactuadas;',
+                     'Designar interlocutor responsável para comunicação com a CONTRATADA;',
+                     'Não utilizar os trabalhos produzidos pela CONTRATADA para fins diversos do objeto deste contrato, sem autorização prévia.'].map(function(item,i){
+                        return '<p class="ctr-scope-item"><strong>'+(i+1)+'.</strong> '+item+'</p>';
+                    }).join('') +
+
+                    // CLÁUSULA 6 — DA CONFIDENCIALIDADE
+                    '<div class="ctr-section-title">Cláusula 6ª — Da Confidencialidade</div>' +
+                    '<p class="ctr-clause"><strong>6.1.</strong> As partes se comprometem a manter sigilo sobre todas as informações, dados, metodologias e documentos trocados durante a vigência deste contrato e por <strong>2 (dois) anos</strong> após seu encerramento, ressalvadas as hipóteses legais de divulgação.</p>' +
+                    '<p class="ctr-clause"><strong>6.2.</strong> A violação da cláusula de confidencialidade sujeitará a parte infratora ao pagamento de indenização pelos danos causados.</p>' +
+
+                    // CLÁUSULA 7 — DA RESCISÃO
+                    '<div class="ctr-section-title">Cláusula 7ª — Da Rescisão</div>' +
+                    '<p class="ctr-clause"><strong>7.1.</strong> O presente contrato poderá ser rescindido por qualquer das partes mediante aviso prévio por escrito de <strong>'+aviso+'</strong>, sem prejuízo do pagamento dos serviços já prestados.</p>' +
+                    '<p class="ctr-clause"><strong>7.2.</strong> A rescisão imediata poderá ocorrer em caso de: (a) inadimplência superior a 30 dias; (b) descumprimento de qualquer cláusula deste contrato; (c) caso fortuito ou força maior que impossibilite a continuidade dos serviços.</p>' +
+                    '<p class="ctr-clause"><strong>7.3.</strong> Em caso de rescisão antecipada pelo CONTRATANTE sem justa causa antes do término do prazo mínimo, fica estabelecida multa rescisória equivalente a <strong>30% (trinta por cento)</strong> do valor das parcelas remanescentes, limitadas ao período de vigência original.</p>' +
+
+                    // CLÁUSULA 8 — DA PROPRIEDADE INTELECTUAL
+                    '<div class="ctr-section-title">Cláusula 8ª — Da Propriedade Intelectual</div>' +
+                    '<p class="ctr-clause"><strong>8.1.</strong> Todas as metodologias, ferramentas, modelos, documentos e demais materiais desenvolvidos pela CONTRATADA permanecem de sua propriedade intelectual, sendo cedida ao CONTRATANTE apenas a licença de uso para os fins deste contrato.</p>' +
+                    '<p class="ctr-clause"><strong>8.2.</strong> O CONTRATANTE não poderá reproduzir, comercializar ou transferir o material recebido a terceiros sem autorização prévia e expressa da CONTRATADA.</p>' +
+
+                    // CLÁUSULA 9 — DISPOSIÇÕES GERAIS
+                    '<div class="ctr-section-title">Cláusula 9ª — Disposições Gerais</div>' +
+                    '<p class="ctr-clause"><strong>9.1.</strong> O presente contrato não gera qualquer vínculo empregatício, societário ou associativo entre as partes.</p>' +
+                    '<p class="ctr-clause"><strong>9.2.</strong> As partes poderão alterar o escopo ou as condições deste contrato mediante aditivo escrito, assinado por ambas as partes.</p>' +
+                    '<p class="ctr-clause"><strong>9.3.</strong> Eventuais controvérsias oriundas deste contrato serão dirimidas no <strong>Foro da Comarca de Porto Alegre/RS</strong>, com expressa renúncia a qualquer outro, por mais privilegiado que seja.</p>' +
+
+                    // Local e data
+                    '<p class="ctr-clause" style="margin-top:28px;text-align:center;">Porto Alegre, '+hoje+'.</p>' +
+
+                    // Assinaturas
+                    '<div class="ctr-signatures">' +
+                        '<div class="ctr-sig-block">' +
+                            '<div class="ctr-sig-line">' +
+                                'Y. P. M. Castanha — Quality Gestão Empresarial<br>' +
+                                '<span style="font-weight:400;font-size:9pt;color:#718096;">CNPJ: 54.738.799/0001-47<br>Representante: Pryscila Castanha</span>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="ctr-sig-block">' +
+                            '<div class="ctr-sig-line">' +
+                                nome+'<br>' +
+                                (cnpj?'<span style="font-weight:400;font-size:9pt;color:#718096;">CNPJ/CPF: '+cnpj+'<br></span>':'')+
+                                '<span style="font-weight:400;font-size:9pt;color:#718096;">Representante: '+(representante||'')+'</span>' +
+                            '</div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="ctr-footer">'+contratoNum+' · Y. P. M. Castanha — Quality Gestão Empresarial · CNPJ 54.738.799/0001-47</div>' +
+                    '</div>';
+
+                    var previewArea = document.getElementById('contratoPreview');
+                    previewArea.innerHTML = html;
+                    previewArea.style.display = 'block';
+                    previewArea.scrollIntoView({behavior:'smooth',block:'start'});
+
+                    // Salvar
+                    var obj = {id:nextCId++, nome:nome, cnpj:cnpj, valor:valor, inicio: new Date(inicioVal+'T12:00').toLocaleDateString('pt-BR'), ativo:true, html:html};
+                    contratos.push(obj);
+                    salvarContratos();
+                    renderCardsContratos();
+                    if(typeof registrarLog==='function') registrarLog('Inclusão','Contratos','Gerou contrato para: '+nome);
+                    if(typeof mostrarToast==='function') mostrarToast('Contrato gerado!','success');
+                };
+
+                window.imprimirContrato = function() { window.print(); };
+
+                window.reabrirContrato = function(id) {
+                    var c = contratos.find(function(x){return x.id===id;});
+                    if(!c) return;
+                    document.getElementById('ctrNome').value = c.nome||'';
+                    document.getElementById('ctrCNPJ').value = c.cnpj||'';
+                    document.getElementById('ctrValor').value = c.valor||'';
+                    document.getElementById('contratoEditor').style.display='block';
+                    document.getElementById('listaContratos').style.display='none';
+                    var previewArea = document.getElementById('contratoPreview');
+                    previewArea.innerHTML = c.html;
+                    previewArea.style.display = 'block';
+                };
+
+                window.excluirContrato = function(id) {
+                    if(!confirm('Excluir este contrato?')) return;
+                    contratos = contratos.filter(function(c){return c.id!==id;});
+                    salvarContratos();
+                    renderCardsContratos();
+                    if(typeof mostrarToast==='function') mostrarToast('Contrato excluído.','success');
+                };
+
+                // Init
+                if(document.readyState==='loading'){
+                    document.addEventListener('DOMContentLoaded', function(){ popularLeadsContrato(); renderCardsContratos(); });
+                } else { popularLeadsContrato(); renderCardsContratos(); }
+
+                var navLink = document.querySelector('[data-page="gestao_contratos"]');
+                if(navLink) navLink.addEventListener('click', function(){ setTimeout(function(){ popularLeadsContrato(); renderCardsContratos(); }, 100); });
+            })();
+            </script>
         </section>
         <section id="page-fluxo_caixa" class="page-section">
             <div class="page-header">
