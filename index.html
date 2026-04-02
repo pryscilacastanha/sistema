@@ -1196,6 +1196,10 @@
                         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 13v-1m4 1v-3m4 3V8M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
                         <span>Painel de KPIs</span>
                     </div>
+                    <div class="nav-item" data-page="controle_senhas" style="font-size:13px;">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/></svg>
+                        <span>Controle de Senhas</span>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -3462,7 +3466,239 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
             <div class="page-header"><div><h1 class="page-title">Orçamentos</h1><p class="page-description">Em breve: Criação e aprovação de propostas comerciais.</p></div></div>
         </section>
         <section id="page-passe_bastao" class="page-section">
-            <div class="page-header"><div><h1 class="page-title">Passe de Bastão</h1><p class="page-description">Em breve: Transição de entrega entre Comercial e Operacional.</p></div></div>
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Passe de Bastão</h1>
+                    <p class="page-description">Transição formal do cliente do Comercial para o time de execução</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="novoPasse()">+ Novo Passe</button>
+                </div>
+            </div>
+
+            <!-- Seleção de Lead -->
+            <div class="card" style="margin-bottom:20px;">
+                <div class="card-body" style="display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap;">
+                    <div class="form-group" style="flex:1;min-width:220px;margin:0;">
+                        <label class="form-label">Importar dados de um Lead:</label>
+                        <select class="filter-select" id="selecionarLeadPasse" style="width:100%;padding:10px 14px;"></select>
+                    </div>
+                    <button class="btn btn-primary" onclick="carregarLeadPasse()" style="height:40px;">Carregar Lead</button>
+                </div>
+            </div>
+
+            <!-- Formulário de Passe -->
+            <div id="passeEditor" style="display:none;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+                    <h3 style="margin:0;color:var(--primary);">📋 Ficha de Passe de Bastão</h3>
+                    <div style="display:flex;gap:10px;">
+                        <button class="btn btn-secondary" onclick="imprimirPasse()">🖨️ Imprimir</button>
+                        <button class="btn btn-secondary" onclick="fecharPasseEditor()">Fechar</button>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom:16px;">
+                    <div class="card-header"><h3 class="card-title">Dados do Cliente</h3></div>
+                    <div class="card-body">
+                        <div class="form-grid">
+                            <div class="form-group"><label class="form-label">Nome / Empresa *</label><input type="text" class="form-input" id="psBCliente" placeholder="Razão social ou nome do cliente"></div>
+                            <div class="form-group"><label class="form-label">Responsável pelo cliente (contato) *</label><input type="text" class="form-input" id="psBContato" placeholder="Nome do responsável"></div>
+                            <div class="form-group"><label class="form-label">Telefone / WhatsApp</label><input type="text" class="form-input" id="psBTelefone"></div>
+                            <div class="form-group"><label class="form-label">E-mail</label><input type="email" class="form-input" id="psBEmail"></div>
+                            <div class="form-group"><label class="form-label">Vendedora responsável</label><input type="text" class="form-input" id="psBVendedora" value="Pryscila Castanha"></div>
+                            <div class="form-group"><label class="form-label">Consultor(a) de execução *</label><input type="text" class="form-input" id="psBExecutor" placeholder="Quem irá atender"></div>
+                            <div class="form-group"><label class="form-label">Data de início da execução</label><input type="date" class="form-input" id="psBInicio"></div>
+                            <div class="form-group"><label class="form-label">Status do Passe</label>
+                                <select class="filter-select" id="psBStatus" style="width:100%;">
+                                    <option value="Aguardando">⏳ Aguardando execução</option>
+                                    <option value="Em andamento">🔄 Em andamento</option>
+                                    <option value="Concluído">✅ Concluído</option>
+                                    <option value="Cancelado">❌ Cancelado</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-bottom:16px;">
+                    <div class="card-header"><h3 class="card-title">Escopo e Carga Horária</h3></div>
+                    <div class="card-body">
+                        <div class="form-grid">
+                            <div class="form-group"><label class="form-label">Plano contratado</label>
+                                <select class="filter-select" id="psBPlano" style="width:100%;">
+                                    <option value="Plano Essencial — 8h/mês">Plano Essencial — 8h/mês</option>
+                                    <option value="Plano Estratégico — 10h/mês">Plano Estratégico — 10h/mês</option>
+                                    <option value="Plano Avançado — 12h/mês">Plano Avançado — 12h/mês</option>
+                                    <option value="Personalizado">Personalizado</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label class="form-label">Carga horária mensal</label><input type="text" class="form-input" id="psBCargaHoraria" placeholder="Ex: 8h/mês"></div>
+                            <div class="form-group"><label class="form-label">Periodicidade dos encontros</label><input type="text" class="form-input" id="psBPeriodicidade" placeholder="Ex: Quinzenal — toda 2ª segunda-feira"></div>
+                            <div class="form-group"><label class="form-label">Valor mensal (R$)</label><input type="text" class="form-input" id="psBValor" placeholder="2.000,00"></div>
+                            <div class="form-group full-width"><label class="form-label">Escopo dos serviços *</label>
+                                <textarea class="form-textarea" id="psBEscopo" rows="5" placeholder="Descreva as atividades que serão executadas..."></textarea>
+                            </div>
+                            <div class="form-group full-width"><label class="form-label">Ferramentas / Acessos necessários</label>
+                                <textarea class="form-textarea" id="psBFerramentas" rows="3" placeholder="Ex: Acesso ao Asana, sistema contábil, Drive do cliente..."></textarea>
+                            </div>
+                            <div class="form-group full-width"><label class="form-label">Observações / Informações importantes para o executor</label>
+                                <textarea class="form-textarea" id="psBObs" rows="4" placeholder="Pontos de atenção, preferências do cliente, histórico relevante..."></textarea>
+                            </div>
+                        </div>
+                        <div style="text-align:right;margin-top:14px;">
+                            <button class="btn btn-primary" onclick="salvarPasse()">💾 Salvar Passe de Bastão</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de Passes -->
+            <div id="listaPasses">
+                <h3 style="margin:0 0 14px;color:var(--text-primary);font-size:16px;">Passes Registrados</h3>
+                <div id="cardsPasses" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;"></div>
+                <div id="semPasses" style="text-align:center;padding:40px;color:var(--text-muted);display:none;">Nenhum passe registrado ainda.</div>
+            </div>
+
+            <script>
+            (function(){
+                var passes = JSON.parse(localStorage.getItem('passeBastao') || '[]');
+                var nextPBId = passes.length ? Math.max.apply(null, passes.map(function(p){return p.id;})) + 1 : 1;
+                function salvarPasses(){ localStorage.setItem('passeBastao', JSON.stringify(passes)); }
+
+                var statusColors = {'Aguardando':'#D97706','Em andamento':'#2563EB','Concluído':'#059669','Cancelado':'#DC2626'};
+
+                function popularLeadsPasse(){
+                    var sel = document.getElementById('selecionarLeadPasse');
+                    if(!sel) return;
+                    var oport = JSON.parse(localStorage.getItem('crmOportunidades') || '[]');
+                    sel.innerHTML = '<option value="">— Selecione um Lead —</option>' +
+                        oport.map(function(o){ return '<option value="'+o.id+'">'+o.nome+' — '+o.fase+'</option>'; }).join('');
+                }
+
+                function renderPasses(){
+                    var c = document.getElementById('cardsPasses');
+                    var sem = document.getElementById('semPasses');
+                    if(!c) return;
+                    if(!passes.length){ c.innerHTML=''; if(sem) sem.style.display='block'; return; }
+                    if(sem) sem.style.display='none';
+                    c.innerHTML = passes.slice().reverse().map(function(p){
+                        var cor = statusColors[p.status]||'#6B7280';
+                        return '<div class="card" style="cursor:pointer;border-left:4px solid '+cor+';" onclick="reabrirPasse('+p.id+')">' +
+                            '<div class="card-body">' +
+                                '<div style="display:flex;justify-content:space-between;align-items:flex-start;">' +
+                                    '<div>' +
+                                        '<p style="font-size:14px;font-weight:700;margin:0 0 3px;color:var(--text-primary);">'+p.cliente+'</p>' +
+                                        '<p style="font-size:12px;color:var(--text-muted);margin:0 0 6px;">👤 '+p.contato+'</p>' +
+                                        '<p style="font-size:12px;color:var(--text-muted);margin:0;">⏱ '+p.cargaHoraria+'</p>' +
+                                    '</div>' +
+                                    '<div style="text-align:right;">' +
+                                        '<span style="font-size:11px;background:'+cor+'22;color:'+cor+';padding:3px 10px;border-radius:20px;font-weight:700;">'+p.status+'</span>' +
+                                        '<br><button class="btn btn-danger btn-small" style="margin-top:8px;font-size:10px;" onclick="event.stopPropagation();excluirPasse('+p.id+')">Excluir</button>' +
+                                    '</div>' +
+                                '</div>' +
+                            '</div>' +
+                        '</div>';
+                    }).join('');
+                }
+
+                window.novoPasse = function(){
+                    ['psBCliente','psBContato','psBTelefone','psBEmail','psBCargaHoraria','psBPeriodicidade','psBValor','psBEscopo','psBFerramentas','psBObs'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+                    document.getElementById('psBVendedora').value='Pryscila Castanha';
+                    document.getElementById('psBInicio').value=new Date().toISOString().slice(0,10);
+                    document.getElementById('psBStatus').value='Aguardando';
+                    document.getElementById('passeEditor').style.display='block';
+                    document.getElementById('listaPasses').style.display='none';
+                };
+
+                window.fecharPasseEditor = function(){
+                    document.getElementById('passeEditor').style.display='none';
+                    document.getElementById('listaPasses').style.display='block';
+                };
+
+                window.carregarLeadPasse = function(){
+                    var sel = document.getElementById('selecionarLeadPasse');
+                    if(!sel||!sel.value){ if(typeof mostrarToast==='function') mostrarToast('Selecione um Lead.','warning'); return; }
+                    var o = JSON.parse(localStorage.getItem('crmOportunidades')||'[]').find(function(x){return x.id===parseInt(sel.value);});
+                    if(!o) return;
+                    document.getElementById('psBCliente').value = o.nome;
+                    document.getElementById('psBContato').value = o.responsavel||'';
+                    document.getElementById('psBTelefone').value = o.telefone||'';
+                    document.getElementById('psBEmail').value = o.email||'';
+                    document.getElementById('psBValor').value = o.valor||'';
+                    document.getElementById('psBEscopo').value = o.escopo||'';
+                    document.getElementById('psBInicio').value = new Date().toISOString().slice(0,10);
+                    document.getElementById('psBStatus').value = 'Aguardando';
+                    document.getElementById('passeEditor').style.display='block';
+                    document.getElementById('listaPasses').style.display='none';
+                };
+
+                window.salvarPasse = function(){
+                    var cliente = document.getElementById('psBCliente').value.trim();
+                    if(!cliente){ if(typeof mostrarToast==='function') mostrarToast('Informe o nome do cliente.','error'); return; }
+                    var obj = {
+                        id: nextPBId++,
+                        cliente: cliente,
+                        contato: document.getElementById('psBContato').value,
+                        telefone: document.getElementById('psBTelefone').value,
+                        email: document.getElementById('psBEmail').value,
+                        vendedora: document.getElementById('psBVendedora').value,
+                        executor: document.getElementById('psBExecutor').value,
+                        inicio: document.getElementById('psBInicio').value,
+                        status: document.getElementById('psBStatus').value,
+                        plano: document.getElementById('psBPlano').value,
+                        cargaHoraria: document.getElementById('psBCargaHoraria').value,
+                        periodicidade: document.getElementById('psBPeriodicidade').value,
+                        valor: document.getElementById('psBValor').value,
+                        escopo: document.getElementById('psBEscopo').value,
+                        ferramentas: document.getElementById('psBFerramentas').value,
+                        obs: document.getElementById('psBObs').value
+                    };
+                    passes.push(obj);
+                    salvarPasses();
+                    renderPasses();
+                    fecharPasseEditor();
+                    if(typeof registrarLog==='function') registrarLog('Inclusão','Passe de Bastão','Novo passe: '+cliente);
+                    if(typeof mostrarToast==='function') mostrarToast('Passe de Bastão salvo!','success');
+                };
+
+                window.reabrirPasse = function(id){
+                    var p = passes.find(function(x){return x.id===id;});
+                    if(!p) return;
+                    document.getElementById('psBCliente').value = p.cliente||'';
+                    document.getElementById('psBContato').value = p.contato||'';
+                    document.getElementById('psBTelefone').value = p.telefone||'';
+                    document.getElementById('psBEmail').value = p.email||'';
+                    document.getElementById('psBVendedora').value = p.vendedora||'Pryscila Castanha';
+                    document.getElementById('psBExecutor').value = p.executor||'';
+                    document.getElementById('psBInicio').value = p.inicio||'';
+                    document.getElementById('psBStatus').value = p.status||'Aguardando';
+                    document.getElementById('psBPlano').value = p.plano||'Plano Essencial — 8h/mês';
+                    document.getElementById('psBCargaHoraria').value = p.cargaHoraria||'';
+                    document.getElementById('psBPeriodicidade').value = p.periodicidade||'';
+                    document.getElementById('psBValor').value = p.valor||'';
+                    document.getElementById('psBEscopo').value = p.escopo||'';
+                    document.getElementById('psBFerramentas').value = p.ferramentas||'';
+                    document.getElementById('psBObs').value = p.obs||'';
+                    document.getElementById('passeEditor').style.display='block';
+                    document.getElementById('listaPasses').style.display='none';
+                };
+
+                window.excluirPasse = function(id){
+                    if(!confirm('Excluir este passe?')) return;
+                    passes = passes.filter(function(p){return p.id!==id;});
+                    salvarPasses(); renderPasses();
+                    if(typeof mostrarToast==='function') mostrarToast('Passe excluído.','success');
+                };
+
+                window.imprimirPasse = function(){ window.print(); };
+
+                if(document.readyState==='loading'){
+                    document.addEventListener('DOMContentLoaded', function(){ popularLeadsPasse(); renderPasses(); });
+                } else { popularLeadsPasse(); renderPasses(); }
+                var navPB = document.querySelector('[data-page="passe_bastao"]');
+                if(navPB) navPB.addEventListener('click', function(){ setTimeout(function(){ popularLeadsPasse(); renderPasses(); },100); });
+            })();
+            </script>
         </section>
         <section id="page-clientes_financeiro" class="page-section">
             <div class="page-header"><div><h1 class="page-title">Clientes (Financeiro)</h1><p class="page-description">Em breve: Gestão financeira de clientes importados do Comercial.</p></div></div>
@@ -3588,6 +3824,195 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
         </section>
         <section id="page-kpis" class="page-section">
             <div class="page-header"><div><h1 class="page-title">Painel de KPIs</h1><p class="page-description">Em breve: Mensuração gráfica das entregas e resultados da consultoria.</p></div></div>
+        </section>
+        <section id="page-controle_senhas" class="page-section">
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">Controle de Senhas</h1>
+                    <p class="page-description">Gerencie acessos e credenciais com segurança</p>
+                </div>
+                <div class="header-actions" style="display:flex;gap:10px;flex-wrap:wrap;">
+                    <label class="btn btn-secondary" style="cursor:pointer;display:flex;align-items:center;gap:6px;">
+                        📥 Importar Google CSV
+                        <input type="file" accept=".csv" id="importarSenhasCSV" style="display:none;" onchange="importarGoogleCSV(this)">
+                    </label>
+                    <button class="btn btn-primary" onclick="abrirModalSenha()">+ Nova Senha</button>
+                </div>
+            </div>
+            <div style="background:#FEF3C7;border:1px solid #F59E0B;border-radius:10px;padding:12px 16px;margin-bottom:18px;display:flex;gap:10px;align-items:flex-start;">
+                <span style="font-size:18px;">⚠️</span>
+                <div style="font-size:13px;color:#92400E;"><strong>Armazenamento local:</strong> As senhas ficam salvas neste navegador. Não compartilhe o acesso ao sistema com pessoas não autorizadas.</div>
+            </div>
+            <div class="card" style="margin-bottom:16px;">
+                <div class="card-body" style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+                    <input type="text" class="form-input" id="buscaSenha" placeholder="🔍 Buscar por nome, link ou usuário..." style="flex:1;min-width:200px;" oninput="renderSenhas()">
+                    <select class="filter-select" id="filtroCategoriaSenha" style="min-width:160px;" onchange="renderSenhas()">
+                        <option value="">Todas as categorias</option>
+                        <option value="Sistema">Sistema</option>
+                        <option value="E-mail">E-mail</option>
+                        <option value="Redes Sociais">Redes Sociais</option>
+                        <option value="Financeiro">Financeiro</option>
+                        <option value="Cloud">Cloud</option>
+                        <option value="Cliente">Cliente</option>
+                        <option value="Outro">Outro</option>
+                    </select>
+                </div>
+            </div>
+            <div id="gridSenhas" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;"></div>
+            <div id="semSenhas" style="text-align:center;padding:40px;color:var(--text-muted);">Nenhuma credencial cadastrada. Clique em "+ Nova Senha" ou importe do Google.</div>
+            <!-- Modal -->
+            <div id="modalSenha" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9000;align-items:center;justify-content:center;">
+                <div class="card" style="width:100%;max-width:500px;margin:20px;">
+                    <div class="card-header" style="display:flex;justify-content:space-between;align-items:center;">
+                        <h3 class="card-title" id="modalSenhaTitulo">Nova Credencial</h3>
+                        <button class="btn btn-secondary btn-small" onclick="fecharModalSenha()">✕</button>
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" id="senhaEditId">
+                        <div class="form-grid">
+                            <div class="form-group full-width"><label class="form-label">Nome / Serviço *</label><input type="text" class="form-input" id="senhaNome" placeholder="Gmail, Vercel, Sistema..."></div>
+                            <div class="form-group full-width"><label class="form-label">Link / URL</label><input type="url" class="form-input" id="senhaLink" placeholder="https://..."></div>
+                            <div class="form-group"><label class="form-label">Usuário / E-mail *</label><input type="text" class="form-input" id="senhaUsuario"></div>
+                            <div class="form-group"><label class="form-label">Senha</label>
+                                <div style="position:relative;">
+                                    <input type="password" class="form-input" id="senhaSenha" style="padding-right:42px;">
+                                    <button type="button" onclick="document.getElementById('senhaSenha').type=document.getElementById('senhaSenha').type==='password'?'text':'password';" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:16px;">👁️</button>
+                                </div>
+                            </div>
+                            <div class="form-group"><label class="form-label">Categoria</label>
+                                <select class="filter-select" id="senhaCategoria" style="width:100%;">
+                                    <option value="Sistema">Sistema</option><option value="E-mail">E-mail</option>
+                                    <option value="Redes Sociais">Redes Sociais</option><option value="Financeiro">Financeiro</option>
+                                    <option value="Cloud">Cloud</option><option value="Cliente">Cliente</option><option value="Outro">Outro</option>
+                                </select>
+                            </div>
+                            <div class="form-group"><label class="form-label">Notas</label><input type="text" class="form-input" id="senhaNota" placeholder="Opcional"></div>
+                        </div>
+                        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px;">
+                            <button class="btn btn-secondary" onclick="fecharModalSenha()">Cancelar</button>
+                            <button class="btn btn-primary" onclick="salvarSenha()">💾 Salvar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+            (function(){
+                var senhas = JSON.parse(localStorage.getItem('controleSenhas') || '[]');
+                var nextSId = senhas.length ? Math.max.apply(null, senhas.map(function(s){return s.id;})) + 1 : 1;
+                function salvarSenhas(){ localStorage.setItem('controleSenhas', JSON.stringify(senhas)); }
+                var catColors = {'Sistema':'#1a365d','E-mail':'#D97706','Redes Sociais':'#7C3AED','Financeiro':'#059669','Cloud':'#2563EB','Cliente':'#DC2626','Outro':'#6B7280'};
+
+                window.renderSenhas = function(){
+                    var busca = (document.getElementById('buscaSenha')||{}).value||'';
+                    var cat = (document.getElementById('filtroCategoriaSenha')||{}).value||'';
+                    var grid = document.getElementById('gridSenhas');
+                    var sem = document.getElementById('semSenhas');
+                    if(!grid) return;
+                    var lista = senhas.filter(function(s){
+                        return (!busca || (s.nome+s.link+s.usuario).toLowerCase().includes(busca.toLowerCase())) && (!cat || s.categoria===cat);
+                    });
+                    if(!lista.length){ grid.innerHTML=''; if(sem) sem.style.display='block'; return; }
+                    if(sem) sem.style.display='none';
+                    grid.innerHTML = lista.map(function(s){
+                        var cor = catColors[s.categoria]||'#6B7280';
+                        var dom=''; try{ dom=s.link?new URL(s.link).hostname:''; }catch(e){}
+                        var enc = encodeURIComponent;
+                        return '<div class="card" style="border-top:3px solid '+cor+';">' +
+                            '<div class="card-body">' +
+                                '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;">' +
+                                    '<div><p style="font-size:14px;font-weight:700;margin:0 0 2px;">'+s.nome+'</p>'+(dom?'<p style="font-size:11px;color:var(--text-muted);margin:0;">🔗 '+dom+'</p>':'')+'</div>' +
+                                    '<span style="font-size:10px;background:'+cor+'20;color:'+cor+';padding:2px 8px;border-radius:20px;font-weight:700;">'+s.categoria+'</span>' +
+                                '</div>' +
+                                '<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">' +
+                                    '<span style="font-size:12px;color:var(--text-muted);min-width:56px;">Usuário:</span>' +
+                                    '<span style="font-size:12px;font-weight:600;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+s.usuario+'</span>' +
+                                    '<button class="btn btn-secondary btn-small" onclick="navigator.clipboard.writeText(\''+enc(s.usuario)+'\').then(function(){mostrarToast&&mostrarToast(\'Usuário copiado!\',\'success\');})" title="Copiar">📋</button>' +
+                                '</div>' +
+                                '<div style="display:flex;gap:8px;align-items:center;margin-bottom:12px;">' +
+                                    '<span style="font-size:12px;color:var(--text-muted);min-width:56px;">Senha:</span>' +
+                                    '<span id="sv_'+s.id+'" data-v="'+enc(s.senha)+'" style="font-size:12px;font-weight:600;flex:1;letter-spacing:2px;">••••••••</span>' +
+                                    '<button class="btn btn-secondary btn-small" onclick="(function(){var e=document.getElementById(\'sv_'+s.id+'\');if(e.textContent===\'••••••••\'){e.textContent=decodeURIComponent(e.dataset.v);e.style.letterSpacing=\'normal\';}else{e.textContent=\'••••••••\';e.style.letterSpacing=\'2px\';}})()">👁️</button>' +
+                                    '<button class="btn btn-secondary btn-small" onclick="navigator.clipboard.writeText(decodeURIComponent(\''+enc(s.senha)+'\')).then(function(){mostrarToast&&mostrarToast(\'Senha copiada!\',\'success\');})" title="Copiar">📋</button>' +
+                                '</div>' +
+                                (s.nota?'<p style="font-size:11px;color:var(--text-muted);margin:0 0 10px;font-style:italic;">'+s.nota+'</p>':'')+
+                                '<div style="display:flex;gap:6px;flex-wrap:wrap;">' +
+                                    (s.link?'<a href="'+s.link+'" target="_blank" class="btn btn-secondary btn-small" style="text-decoration:none;">🔗 Abrir</a>':'')+
+                                    '<button class="btn btn-secondary btn-small" onclick="editarSenha('+s.id+')">✏️</button>' +
+                                    '<button class="btn btn-danger btn-small" onclick="excluirSenha('+s.id+')">🗑️</button>' +
+                                '</div>' +
+                            '</div></div>';
+                    }).join('');
+                };
+
+                window.abrirModalSenha = function(){
+                    ['senhaNome','senhaLink','senhaUsuario','senhaSenha','senhaNota'].forEach(function(id){document.getElementById(id).value='';});
+                    document.getElementById('senhaSenha').type='password';
+                    document.getElementById('senhaCategoria').value='Sistema';
+                    document.getElementById('senhaEditId').value='';
+                    document.getElementById('modalSenhaTitulo').textContent='Nova Credencial';
+                    document.getElementById('modalSenha').style.display='flex';
+                };
+                window.fecharModalSenha = function(){ document.getElementById('modalSenha').style.display='none'; };
+
+                window.editarSenha = function(id){
+                    var s = senhas.find(function(x){return x.id===id;}); if(!s) return;
+                    document.getElementById('senhaEditId').value=s.id;
+                    document.getElementById('senhaNome').value=s.nome||'';
+                    document.getElementById('senhaLink').value=s.link||'';
+                    document.getElementById('senhaUsuario').value=s.usuario||'';
+                    document.getElementById('senhaSenha').value=s.senha||'';
+                    document.getElementById('senhaSenha').type='password';
+                    document.getElementById('senhaNota').value=s.nota||'';
+                    document.getElementById('senhaCategoria').value=s.categoria||'Outro';
+                    document.getElementById('modalSenhaTitulo').textContent='Editar Credencial';
+                    document.getElementById('modalSenha').style.display='flex';
+                };
+
+                window.salvarSenha = function(){
+                    var nome=document.getElementById('senhaNome').value.trim();
+                    var usuario=document.getElementById('senhaUsuario').value.trim();
+                    if(!nome||!usuario){ if(typeof mostrarToast==='function') mostrarToast('Nome e usuário obrigatórios.','error'); return; }
+                    var editId=document.getElementById('senhaEditId').value;
+                    var obj={id:editId?parseInt(editId):nextSId++, nome:nome, link:document.getElementById('senhaLink').value.trim(), usuario:usuario, senha:document.getElementById('senhaSenha').value, categoria:document.getElementById('senhaCategoria').value, nota:document.getElementById('senhaNota').value.trim()};
+                    if(editId){ var idx=senhas.findIndex(function(x){return x.id===parseInt(editId);}); if(idx>=0) senhas[idx]=obj; }
+                    else senhas.push(obj);
+                    salvarSenhas(); renderSenhas(); fecharModalSenha();
+                    if(typeof mostrarToast==='function') mostrarToast('Credencial salva!','success');
+                    if(typeof registrarLog==='function') registrarLog(editId?'Alteração':'Inclusão','Senhas',nome);
+                };
+
+                window.excluirSenha = function(id){
+                    if(!confirm('Excluir esta credencial?')) return;
+                    senhas=senhas.filter(function(s){return s.id!==id;}); salvarSenhas(); renderSenhas();
+                    if(typeof mostrarToast==='function') mostrarToast('Excluído.','success');
+                };
+
+                window.importarGoogleCSV = function(input){
+                    var file=input.files[0]; if(!file) return;
+                    var reader=new FileReader();
+                    reader.onload=function(e){
+                        var lines=e.target.result.split('\n'); var count=0;
+                        for(var i=1;i<lines.length;i++){
+                            var line=lines[i].trim(); if(!line) continue;
+                            var parts=line.match(/(".*?"|[^",]+)(?=,|$)/g);
+                            if(!parts||parts.length<4) continue;
+                            var c=parts.map(function(p){return p.replace(/^"|"$/g,'');});
+                            if(!c[2]&&!c[0]) continue;
+                            var dupl=senhas.some(function(s){return s.link===c[1]&&s.usuario===c[2];});
+                            if(!dupl){ senhas.push({id:nextSId++, nome:c[0]||c[1], link:c[1], usuario:c[2], senha:c[3], categoria:'Outro', nota:'Importado do Google'}); count++; }
+                        }
+                        salvarSenhas(); renderSenhas();
+                        if(typeof mostrarToast==='function') mostrarToast(count+' credenciais importadas!','success');
+                        input.value='';
+                    };
+                    reader.readAsText(file);
+                };
+
+                if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded',renderSenhas); } else { renderSenhas(); }
+                var nav=document.querySelector('[data-page="controle_senhas"]');
+                if(nav) nav.addEventListener('click',function(){ setTimeout(renderSenhas,100); });
+            })();
+            </script>
         </section>
         <section id="page-permissoes" class="page-section">
             <div class="page-header">
