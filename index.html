@@ -3534,7 +3534,14 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                             </div>
                             <div class="form-group"><label class="form-label">Carga horária mensal</label><input type="text" class="form-input" id="psBCargaHoraria" placeholder="Ex: 8h/mês"></div>
                             <div class="form-group"><label class="form-label">Periodicidade dos encontros</label><input type="text" class="form-input" id="psBPeriodicidade" placeholder="Ex: Quinzenal — toda 2ª segunda-feira"></div>
-                            <div class="form-group"><label class="form-label">Valor mensal (R$)</label><input type="text" class="form-input" id="psBValor" placeholder="2.000,00"></div>
+                            <div class="form-group"><label class="form-label">Direcionar para módulo *</label>
+                                <select class="filter-select" id="psBModulo" style="width:100%;">
+                                    <option value="">— Selecione o módulo —</option>
+                                    <option value="consultoria">📊 Consultoria</option>
+                                    <option value="mentoria">🎓 Mentoria</option>
+                                    <option value="assessoria">📋 Assessoria</option>
+                                </select>
+                            </div>
                             <div class="form-group full-width"><label class="form-label">Escopo dos serviços *</label>
                                 <textarea class="form-textarea" id="psBEscopo" rows="5" placeholder="Descreva as atividades que serão executadas..."></textarea>
                             </div>
@@ -3583,17 +3590,23 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                     if(sem) sem.style.display='none';
                     c.innerHTML = passes.slice().reverse().map(function(p){
                         var cor = statusColors[p.status]||'#6B7280';
+                        var moduloLabel = {'consultoria':'📊 Consultoria','mentoria':'🎓 Mentoria','assessoria':'📋 Assessoria'};
+                        var moduloPage = p.modulo || '';
+                        var moduloBadge = moduloPage ? '<span style="font-size:10px;background:#EBF4FF;color:#1a365d;padding:2px 8px;border-radius:20px;font-weight:700;margin-top:4px;display:inline-block;">'+(moduloLabel[moduloPage]||moduloPage)+'</span>' : '';
+                        var navBtn = moduloPage ? '<button class="btn btn-primary btn-small" style="font-size:10px;margin-top:6px;" onclick="event.stopPropagation();mostrarSecao(\'page-'+moduloPage+'\')">Ir para Módulo →</button>' : '';
                         return '<div class="card" style="cursor:pointer;border-left:4px solid '+cor+';" onclick="reabrirPasse('+p.id+')">' +
                             '<div class="card-body">' +
                                 '<div style="display:flex;justify-content:space-between;align-items:flex-start;">' +
                                     '<div>' +
                                         '<p style="font-size:14px;font-weight:700;margin:0 0 3px;color:var(--text-primary);">'+p.cliente+'</p>' +
-                                        '<p style="font-size:12px;color:var(--text-muted);margin:0 0 6px;">👤 '+p.contato+'</p>' +
-                                        '<p style="font-size:12px;color:var(--text-muted);margin:0;">⏱ '+p.cargaHoraria+'</p>' +
+                                        '<p style="font-size:12px;color:var(--text-muted);margin:0 0 4px;">👤 '+p.contato+'</p>' +
+                                        '<p style="font-size:12px;color:var(--text-muted);margin:0 0 4px;">⏱ '+p.cargaHoraria+'</p>' +
+                                        moduloBadge +
                                     '</div>' +
                                     '<div style="text-align:right;">' +
                                         '<span style="font-size:11px;background:'+cor+'22;color:'+cor+';padding:3px 10px;border-radius:20px;font-weight:700;">'+p.status+'</span>' +
-                                        '<br><button class="btn btn-danger btn-small" style="margin-top:8px;font-size:10px;" onclick="event.stopPropagation();excluirPasse('+p.id+')">Excluir</button>' +
+                                        '<br>' + navBtn +
+                                        '<br><button class="btn btn-danger btn-small" style="margin-top:6px;font-size:10px;" onclick="event.stopPropagation();excluirPasse('+p.id+')">Excluir</button>' +
                                     '</div>' +
                                 '</div>' +
                             '</div>' +
@@ -3602,10 +3615,11 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                 }
 
                 window.novoPasse = function(){
-                    ['psBCliente','psBContato','psBTelefone','psBEmail','psBCargaHoraria','psBPeriodicidade','psBValor','psBEscopo','psBFerramentas','psBObs'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+                    ['psBCliente','psBContato','psBTelefone','psBEmail','psBCargaHoraria','psBPeriodicidade','psBEscopo','psBFerramentas','psBObs'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
                     document.getElementById('psBVendedora').value='Pryscila Castanha';
                     document.getElementById('psBInicio').value=new Date().toISOString().slice(0,10);
                     document.getElementById('psBStatus').value='Aguardando';
+                    document.getElementById('psBModulo').value='';
                     document.getElementById('passeEditor').style.display='block';
                     document.getElementById('listaPasses').style.display='none';
                 };
@@ -3624,10 +3638,10 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                     document.getElementById('psBContato').value = o.responsavel||'';
                     document.getElementById('psBTelefone').value = o.telefone||'';
                     document.getElementById('psBEmail').value = o.email||'';
-                    document.getElementById('psBValor').value = o.valor||'';
                     document.getElementById('psBEscopo').value = o.escopo||'';
                     document.getElementById('psBInicio').value = new Date().toISOString().slice(0,10);
                     document.getElementById('psBStatus').value = 'Aguardando';
+                    document.getElementById('psBModulo').value = '';
                     document.getElementById('passeEditor').style.display='block';
                     document.getElementById('listaPasses').style.display='none';
                 };
@@ -3648,7 +3662,7 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                         plano: document.getElementById('psBPlano').value,
                         cargaHoraria: document.getElementById('psBCargaHoraria').value,
                         periodicidade: document.getElementById('psBPeriodicidade').value,
-                        valor: document.getElementById('psBValor').value,
+                        modulo: document.getElementById('psBModulo').value,
                         escopo: document.getElementById('psBEscopo').value,
                         ferramentas: document.getElementById('psBFerramentas').value,
                         obs: document.getElementById('psBObs').value
@@ -3675,7 +3689,7 @@ Empresa Exemplo LTDA;12.345.678/0001-90;ECD;2025-07-31;Aliny;Pendente
                     document.getElementById('psBPlano').value = p.plano||'Plano Essencial — 8h/mês';
                     document.getElementById('psBCargaHoraria').value = p.cargaHoraria||'';
                     document.getElementById('psBPeriodicidade').value = p.periodicidade||'';
-                    document.getElementById('psBValor').value = p.valor||'';
+                    document.getElementById('psBModulo').value = p.modulo||'';
                     document.getElementById('psBEscopo').value = p.escopo||'';
                     document.getElementById('psBFerramentas').value = p.ferramentas||'';
                     document.getElementById('psBObs').value = p.obs||'';
