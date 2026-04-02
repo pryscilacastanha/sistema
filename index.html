@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -2229,7 +2229,7 @@
                     var stored = localStorage.getItem('crmOportunidades');
                     var oport = stored ? JSON.parse(stored) : [];
                     sel.innerHTML = '<option value="">— Selecione um Lead —</option>' +
-                        oport.map(function(o){ return '<option value="'+o.id+'">'+o.nome+'</option>'; }).join('');
+                        oport.map(function(o){ return '<option value="'+o.id+'">'+o.nome+' — '+o.fase+'</option>'; }).join('');
                 }
 
                 function renderCardsContratos() {
